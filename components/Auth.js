@@ -2,18 +2,14 @@ import { useState } from 'react'
 import { supabase } from '../utils/supabaseClient'
 
 export default function Auth() {
-  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
 
   const handleLogin = async (email) => {
     try {
-      setLoading(true)
       const { error } = await supabase.auth.signInWithPassword({email: email, password: '111111'})
       if (error) throw error
     } catch (error) {
       alert(error.error_description || error.message)
-    } finally {
-      setLoading(false)
     }
   }
 

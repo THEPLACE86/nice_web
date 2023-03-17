@@ -1,4 +1,3 @@
-import {supabase} from "../utils/supabaseClient";
 
 export default function Home() {
 
