@@ -1,7 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   swcMinify: true,
-}
-
-module.exports = nextConfig
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback.fs = false;
+      config.resolve.fallback.module = false;
+    }
+    return config;
+  },
+};

@@ -1,6 +1,9 @@
+@import "~react-datepicker/dist/react-datepicker.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 /* Chrome, Safari, Opera */
 ::-webkit-scrollbar {

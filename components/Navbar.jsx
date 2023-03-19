@@ -37,7 +37,7 @@ const Navbar = () => {
                         </div>
                     </label>
                     <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                        <li><a className="justify-between"><span className="text-black">내정보</span></a></li>
+                        <li><a className="justify-between" onClick={() => router.push('/profile')}><span className="text-black">내정보</span></a></li>
                         <li><span className="text-black">setting</span></li>
                         <li><span className="text-red-500" onClick={()=> supabase.auth.signOut()}>Logout</span></li>
                     </ul>

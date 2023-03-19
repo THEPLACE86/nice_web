@@ -28,7 +28,13 @@ const ProductList = () => {
                         {startDate ? startDate.toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric'}) : '검사날짜 선택'}
                     </button>
                     {showDatePicker && (
-                        <DatePicker selected={startDate} onChange={handleDateChange} locale={ko} dateFormat="yyyy년 MM월 dd일" inline/>
+                        <DatePicker
+                            selected={startDate}
+                            onChange={handleDateChange}
+                            locale={ko} dateFormat="yyyy년 MM월 dd일"
+                            inline
+                            filterDate={(date) => date.getDay() === 2}
+                        />
                     )}
                 </div>
             </div>

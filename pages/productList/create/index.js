@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {supabase} from "../../../utils/supabaseClient";
 import {useRouter} from "next/router";
 
@@ -16,26 +16,33 @@ const Create = (props) => {
         memo: "",
         initial: "",
     });
-
     const [errors, setErrors] = useState({});
-
+    const loadDataFromLocalStorage = (key) => {
+        try {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : null;
+        } catch (error) {
+            console.error('Error loading data from localStorage:', error);
+            return null;
+        }
+    };
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const newErrors = {}
-
         Object.keys(formData).forEach((key) => {
             if (!formData[key] && key !== "head" && key !== "hole" && key !== "groove" && key !== "memo") {
                 newErrors[key] = "빈칸을 입력해주세요";
             }
         })
-
         if (Object.keys(newErrors).length === 0) {
+            const { data: { user } } = await supabase.auth.getUser()
+
+            const userData = loadDataFromLocalStorage('user')
+
             await supabase.from("product_list").insert({
                 company: formData.company,
                 place: formData.place,
@@ -46,6 +53,9 @@ const Create = (props) => {
                 groove: formData.groove,
                 memo: formData.memo,
                 test_date: date,
+                initial: formData.initial,
+                name: userData.name,
+                uid: user.id
             });
             router.back();
         } else {
@@ -55,9 +65,8 @@ const Create = (props) => {
 
     return (
         <div className="flex justify-center">
-            <form onSubmit={handleSubmit} className="w-full max-w-xl">
+            <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto">
                 <div className="bg-white p-6 rounded-lg">
-                    {/* 회사명, 현장명, 구역명 */}
                     <div className="grid grid-cols-4 gap-4 mb-4">
                         <div>
                             <label htmlFor="company" className="block mb-2">
