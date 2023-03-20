@@ -1,21 +1,9 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {supabase} from "../../utils/supabaseClient";
+import loadDataFromLocalStorage from "../../utils/localStorage";
 
 const Profile = () => {
     const [email, setEmail] = useState("");
-
-    const loadDataFromLocalStorage = (key) => {
-        try {
-            const jsonData = localStorage.getItem(key);
-            if (jsonData) {
-                return JSON.parse(jsonData);
-            }
-            return null;
-        } catch (error) {
-            console.error('Error loading data from localStorage:', error);
-            return null;
-        }
-    };
     const userData = loadDataFromLocalStorage('user');
 
     const handleSubmit = async (e) => {

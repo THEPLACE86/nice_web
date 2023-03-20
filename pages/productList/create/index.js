@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {supabase} from "../../../utils/supabaseClient";
 import {useRouter} from "next/router";
+import loadDataFromLocalStorage from "../../../utils/localStorage";
 
 const Create = (props) => {
     const { date } = props;
@@ -17,15 +18,6 @@ const Create = (props) => {
         initial: "",
     });
     const [errors, setErrors] = useState({});
-    const loadDataFromLocalStorage = (key) => {
-        try {
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : null;
-        } catch (error) {
-            console.error('Error loading data from localStorage:', error);
-            return null;
-        }
-    };
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -151,6 +143,7 @@ const Create = (props) => {
                             <option value="용접/무용접">용접/무용접</option>
                             <option value="전실/입상">전실/입상</option>
                             <option value="나사">나사</option>
+                            <option value="기타">기타</option>
                         </select>
                         {errors.workType && (
                             <p className="text-red-500 text-sm">{errors.workType}</p>

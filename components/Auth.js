@@ -42,7 +42,7 @@ const Auth = () => {
         try {
             localStorage.setItem(key, JSON.stringify(data));
         } catch (error) {
-            console.error('Error saving data to localStorage:', error);
+            console.error('Error saving data to localStorage.js:', error);
         }
     };
 

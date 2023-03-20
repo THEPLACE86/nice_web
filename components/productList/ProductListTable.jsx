@@ -106,20 +106,20 @@ const ProductListTable = ({ type, data }) => {
 
     return (
         <div>
-            <h1 className="text-xl font-bold mb-2">{type}</h1>
+            <h1 className={`text-xl font-bold mb-2 ${type === '기타' && 'text-orange-500'}`}>{type}</h1>
             <table className="w-full border-collapse mx-auto">
                 <thead>
                 <tr>
-                    <TableTH width="4.8rem" className="bg-blue-50">작업현황</TableTH>
-                    <TableTH width="4rem" className="bg-blue-50">이니셜</TableTH>
-                    <TableTH width="4rem" className="bg-blue-50">담당</TableTH>
-                    <TableTH width="7rem" className="bg-blue-50">회사</TableTH>
-                    <TableTH width="11rem" className="bg-blue-50">현장명</TableTH>
-                    <TableTH width="14rem" className="bg-blue-50">구역명</TableTH>
-                    <TableTH width="5rem" className="bg-blue-50">헤드</TableTH>
-                    <TableTH width="5rem" className="bg-blue-50">홀</TableTH>
-                    <TableTH width="5rem" className="bg-blue-50">그루브</TableTH>
-                    <TableTH className="bg-blue-50">Memo</TableTH>
+                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>작업현황</TableTH>
+                    <TableTH width="4rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>이니셜</TableTH>
+                    <TableTH width="4rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>담당</TableTH>
+                    <TableTH width="7rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>회사</TableTH>
+                    <TableTH width="11rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>현장명</TableTH>
+                    <TableTH width="14rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>구역명</TableTH>
+                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>헤드</TableTH>
+                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>홀</TableTH>
+                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>그루브</TableTH>
+                    <TableTH className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>비고</TableTH>
                 </tr>
                 </thead>
                 <tbody>
