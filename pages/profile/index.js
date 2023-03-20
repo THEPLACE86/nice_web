@@ -8,7 +8,7 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await supabase.auth.signUp({email: email, password: 'jjdwkd9502'});
+        await supabase.auth.signUp({email: email, password: '111111'});
     };
 
     return(
