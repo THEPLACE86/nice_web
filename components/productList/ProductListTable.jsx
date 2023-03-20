@@ -41,7 +41,7 @@ const ProductListTable = ({ type, data }) => {
         }
     };
     const WorkerCell = ({ item }) => {
-        const className = `${getStatusClassName(item.worker)}`;
+        const className = `text-sm ${getStatusClassName(item.worker)}`;
         return <TableTH className={className}>{item.worker}</TableTH>;
     }
     const drawingBtn = async (id) => {
@@ -123,39 +123,39 @@ const ProductListTable = ({ type, data }) => {
             <table className="w-full border-collapse mx-auto">
                 <thead>
                 <tr>
-                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>작업현황</TableTH>
-                    <TableTH width="4rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>이니셜</TableTH>
-                    <TableTH width="4rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>담당</TableTH>
-                    <TableTH width="7rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>회사</TableTH>
-                    <TableTH width="11rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>현장명</TableTH>
-                    <TableTH width="14rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>구역명</TableTH>
-                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>헤드</TableTH>
-                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>홀</TableTH>
-                    <TableTH width="5rem" className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>그루브</TableTH>
-                    <TableTH className={`${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>비고</TableTH>
+                    <TableTH width="5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>작업현황</TableTH>
+                    <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>이니셜</TableTH>
+                    <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>담당</TableTH>
+                    <TableTH width="7rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>회사</TableTH>
+                    <TableTH width="11rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>현장명</TableTH>
+                    <TableTH width="14rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>구역명</TableTH>
+                    <TableTH width="5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>헤드</TableTH>
+                    <TableTH width="5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>홀</TableTH>
+                    <TableTH width="5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>그루브</TableTH>
+                    <TableTH className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>비고</TableTH>
                 </tr>
                 </thead>
                 <tbody>
                 {data.map((item, index) => (
                     <tr key={index} onClick={() => handleRowClick(item)} className="cursor-pointer">
                         <WorkerCell item={item} />
-                        <TableTH className={`font-normal ${item.paper && 'bg-accent'} ${item.worker === '출하완료' && 'line-through'}`}>{item.initial}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.name}</TableTH>
-                        <TableTH className={`font-normal ${item.drawing && 'bg-orange-200'} ${item.worker === '출하완료' && 'line-through'}`}>{item.company}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.place}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.area}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.head !== 0 && item.head}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.hole !== 0 && item.hole}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.groove !== 0 && item.groove}</TableTH>
-                        <TableTH className={`font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.memo}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.paper && 'bg-accent'} ${item.worker === '출하완료' && 'line-through'}`}>{item.initial}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.name}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.drawing && 'bg-orange-200'} ${item.worker === '출하완료' && 'line-through'}`}>{item.company}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.place}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.area}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.head !== 0 && item.head}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.hole !== 0 && item.hole}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.groove !== 0 && item.groove}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.memo}</TableTH>
                     </tr>
                 ))}
                 <tr>
-                    <td colSpan="6" className="border-none p-1 text-center font-semibold text-end">합계</td>
-                    <TableTH className="bg-yellow-100">{ totalHead !== 0 && totalHead }</TableTH>
-                    <TableTH className="bg-yellow-100">{ totalHole !== 0 && totalHole }</TableTH>
-                    <TableTH className="bg-yellow-100">{ totalGroove !== 0 && totalGroove }</TableTH>
-                    <td colSpan="3" className="border-none p-2 text-center"></td>
+                    <td colSpan="6" className="text-sm border-none p-1 text-center font-semibold text-end">합계</td>
+                    <TableTH className="text-sm bg-yellow-100">{ totalHead !== 0 && totalHead }</TableTH>
+                    <TableTH className="text-sm bg-yellow-100">{ totalHole !== 0 && totalHole }</TableTH>
+                    <TableTH className="text-sm bg-yellow-100">{ totalGroove !== 0 && totalGroove }</TableTH>
+                    <td colSpan="3" className="text-sm border-none p-2 text-center"></td>
                 </tr>
                 </tbody>
             </table>
