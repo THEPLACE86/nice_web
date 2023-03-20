@@ -110,7 +110,7 @@ const ProductListTable = ({ type, data }) => {
             <table className="w-full border-collapse mx-auto">
                 <thead>
                 <tr>
-                    <TableTH width="4.2rem" className="bg-blue-50">작업현황</TableTH>
+                    <TableTH width="4.8rem" className="bg-blue-50">작업현황</TableTH>
                     <TableTH width="4rem" className="bg-blue-50">이니셜</TableTH>
                     <TableTH width="4rem" className="bg-blue-50">담당</TableTH>
                     <TableTH width="7rem" className="bg-blue-50">회사</TableTH>

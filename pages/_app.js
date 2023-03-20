@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
         {!session ? (
             <Auth />
         ) : (
-            <div className="w-[1350px] mx-auto relative">
+            <div className="w-[1400px] mx-auto relative">
               <Navbar/>
               <Component {...pageProps} key={session.user.id} session={session} />
             </div>

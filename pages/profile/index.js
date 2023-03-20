@@ -1,10 +1,22 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {supabase} from "../../utils/supabaseClient";
 
 const Profile = () => {
     const [email, setEmail] = useState("");
 
-    const role = localStorage.getItem("userRole");
+    const loadDataFromLocalStorage = (key) => {
+        try {
+            const jsonData = localStorage.getItem(key);
+            if (jsonData) {
+                return JSON.parse(jsonData);
+            }
+            return null;
+        } catch (error) {
+            console.error('Error loading data from localStorage:', error);
+            return null;
+        }
+    };
+    const userData = loadDataFromLocalStorage('user');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,7 +25,7 @@ const Profile = () => {
 
     return(
         <>
-            {role === '관리자' &&
+            {userData.role === '관리자' &&
                 <div>
                     <form onSubmit={handleSubmit} className="mt-60 w-full max-w-md mx-auto space-y-4">
                         <span className={"font-bold text-2xl"}>NICEENTECH 가입</span>
