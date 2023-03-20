@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 
@@ -8,10 +8,6 @@ const ModalBackground = styled.div`
 
 const ModalContainer = styled.div`
   ${tw`bg-white rounded-lg p-8`}
-`;
-
-const CloseButton = styled.button`
-  ${tw`absolute top-4 right-4 bg-red-500 p-1 text-white rounded-full`}
 `;
 
 const Modal = ({ children, onClose }) => {

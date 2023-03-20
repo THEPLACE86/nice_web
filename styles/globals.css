@@ -19,3 +19,13 @@ html {
 body {
     -ms-overflow-style: none;
 }
+
+@media print {
+    /* 모든 요소에 적용된 'print:hidden' 클래스를 숨깁니다. */
+    @page {
+        margin: 7px;
+    }
+    .print:hidden {
+        display: none !important;
+    }
+}

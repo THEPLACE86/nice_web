@@ -114,7 +114,16 @@ const ProductListTable = ({ type, data }) => {
     }
 
     const deleteProduct = async (id) => {
-        await supabase.from('product_list').delete({'id': id})
+        const confirmed = window.confirm('삭제 하시겠습니까?')
+
+        if(confirmed){
+            try{
+                await supabase.from('product_list').delete().eq('id', id)
+                setShowModal(false)
+            }catch (e) {
+                console.log(e.message)
+            }
+        }
     }
 
     return (

@@ -10,7 +10,7 @@ const Navbar = () => {
         return <></>
     }else{
         return(
-            <div className="navbar bg-neutral text-neutral-content rounded-xl">
+            <div className="print:hidden navbar bg-neutral text-neutral-content rounded-xl">
                 <div className="flex-1">
                     <Link href="/">
                     <span

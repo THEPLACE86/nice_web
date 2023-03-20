@@ -149,7 +149,6 @@ const Create = (props) => {
                             <p className="text-red-500 text-sm">{errors.workType}</p>
                         )}
                     </div>
-
                     {/* 숫자형 입력: 헤드, 홀, 그루브 */}
                     <div className="grid grid-cols-3 gap-4 mb-4">
                         <div>
