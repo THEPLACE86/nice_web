@@ -6,6 +6,7 @@ import {supabase} from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
+import {useRouter} from "next/navigation";
 
 const TableTH = styled.th`
   ${tw`border border-gray-400 p-1 text-center`}
@@ -21,6 +22,7 @@ const ProductListTable = ({ type, data }) => {
     const [selectedItem, setSelectedItem] = useState(null); // 선택된 항목에 대한 상태를 추가합니다.
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+    const router = useRouter()
 
     const handleRowClick = (item) => {
         setSelectedItem(item); // 행이 클릭되면 선택된 항목을 설정합니다.
@@ -104,6 +106,17 @@ const ProductListTable = ({ type, data }) => {
         }
     }
 
+    const goToUpdate = (id) => {
+        router.push({
+            pathname: '/productList/update',
+            query: { id: id },
+        });
+    }
+
+    const deleteProduct = async (id) => {
+        await supabase.from('product_list').delete({'id': id})
+    }
+
     return (
         <div>
             <h1 className={`text-xl font-bold mb-2 ${type === '기타' && 'text-orange-500'}`}>{type}</h1>
@@ -151,8 +164,8 @@ const ProductListTable = ({ type, data }) => {
                     <span className="font-bold text-2xl">{selectedItem.company} {selectedItem.place} {selectedItem.area}</span>
                     <p className="text-xl font-bold mt-6">설계부</p>
                     <div className="flex space-x-4 mt-4 mb-4">
-                        <button className="bg-indigo-500 text-white px-4 py-2 rounded">수정</button>
-                        <button className="bg-red-500 text-white px-4 py-2 rounded">삭제</button>
+                        <button className="bg-indigo-500 text-white px-4 py-2 rounded" onClick={() => goToUpdate(selectedItem.id)}>수정</button>
+                        <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => deleteProduct(selectedItem.id)}>삭제</button>
                         <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => drawingBtn(selectedItem.id)}>도면배포</button>
                     </div>
                     <div className="mt-2 mb-8">
@@ -183,6 +196,7 @@ const ProductListTable = ({ type, data }) => {
                                         selectedItem.worker === '작업완료' ? '출하완료 변경' : '출하가 완료되었습니다.'
                             }
                         </button>
+                        <button></button>
                     </div>
                 </Modal>
             )}

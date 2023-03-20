@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import { useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {supabase} from "../../../utils/supabaseClient";
 import ProductListTable from "../../../components/productList/ProductListTable";
 
@@ -23,38 +23,36 @@ const List = (props) => {
     }, []);
 
     useEffect(() => {
-        const ch = supabase.channel('any')
+        supabase.channel('any')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'product_list' }, payload => {
                 console.log('Change received!', payload)
-
-                if (payload.eventType === "UPDATE") {
-                    if (payload.new.test_date !== date) {
-                        console.log(payload.old.test_date)
-                        console.log(payload.new.test_date)
-
-                        setData((prevChannels) => {
-                            const updatedChannels = prevChannels.map((channel) =>
-                                channel.id === payload.new.id ? payload.new : channel
-                            );
-                            if (payload.new.test_date === date) {
-                                // 새로운 test_date가 현재 페이지의 날짜와 같으면 목록에 추가
-                                return [...updatedChannels, payload.new];
-                            } else {
-                                // 현재 목록에서 test_date가 변경된 항목을 제거
-                                return updatedChannels.filter(channel => channel.test_date === date);
-                            }
-                        });
-                    } else {
-                        console.log('실행됨')
-                        setData((prevChannels) => {
-                            const updatedChannels = prevChannels.map((channel) =>
-                                channel.id === payload.new.id ? payload.new : channel
-                            );
-                            return updatedChannels;
-                        });
-                    }
-                } else {
                     switch (payload.eventType) {
+                        case "UPDATE":
+                            if (payload.new.test_date !== date) {
+                                console.log(payload.old.test_date)
+                                console.log(payload.new.test_date)
+
+                                setData((prevChannels) => {
+                                    const updatedChannels = prevChannels.map((channel) =>
+                                        channel.id === payload.new.id ? payload.new : channel
+                                    );
+                                    if (payload.new.test_date === date) {
+                                        // 새로운 test_date가 현재 페이지의 날짜와 같으면 목록에 추가
+                                        return [...updatedChannels, payload.new];
+                                    } else {
+                                        // 현재 목록에서 test_date가 변경된 항목을 제거
+                                        return updatedChannels.filter(channel => channel.test_date === date);
+                                    }
+                                });
+                            } else {
+                                console.log('실행됨')
+                                setData((prevChannels) => {
+                                    return prevChannels.map((channel) =>
+                                        channel.id === payload.new.id ? payload.new : channel
+                                    );
+                                });
+                            }
+                            break
                         case "INSERT":
                             if (payload.new.test_date === date) {
                                 setData((prevChannels) => [...prevChannels, payload.new]);
@@ -70,7 +68,7 @@ const List = (props) => {
                         default:
                             break;
                     }
-                }
+
             }).subscribe()
 
     }, [])
