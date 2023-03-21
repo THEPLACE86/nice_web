@@ -8,7 +8,7 @@ const List = (props) => {
     const { date } = props;
     const router = useRouter()
     const [data, setData] = useState([]);
-    const workTypes = ["용접/무용접", "전실/입상", "나사"];
+    const workTypes = ["용접/무용접", "전실/입상", "나사", "기타"];
 
     useEffect(() => {
         const fetchData = async () => {

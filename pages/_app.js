@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {supabase} from "../utils/supabaseClient";
 import Auth from "../components/Auth";
 import Navbar from "../components/Navbar";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
 
@@ -17,7 +18,6 @@ function MyApp({ Component, pageProps }) {
         data: { session },
       } = await supabase.auth.getSession()
 
-      // only update the react state if the component is still mounted
       if (mounted) {
         if (session) {
           setSession(session)
@@ -53,6 +53,11 @@ function MyApp({ Component, pageProps }) {
             <Auth />
         ) : (
             <div className="w-[1400px] pr-6 pl-6 pb-6 mx-auto relative">
+              <Head>
+                <script>
+                  <script src="https://kit.fontawesome.com/85da0a7805.js" crossOrigin="anonymous"></script>
+                </script>
+              </Head>
               <Navbar/>
               <Component {...pageProps} key={session.user.id} session={session} />
             </div>

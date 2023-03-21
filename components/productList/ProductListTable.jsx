@@ -7,6 +7,8 @@ import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import {useRouter} from "next/navigation";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotate } from '@fortawesome/free-solid-svg-icons';
 
 const TableTH = styled.th`
   ${tw`border border-gray-400 p-1 text-center`}
@@ -44,9 +46,9 @@ const ProductListTable = ({ type, data }) => {
         const className = `text-sm ${getStatusClassName(item.worker)}`;
         return <TableTH className={className}>{item.worker}</TableTH>;
     }
-    const drawingBtn = async (id) => {
+    const drawingBtn = async (id, drawing) => {
         await supabase.from('product_list').update({
-            'drawing' : true
+            'drawing' : !drawing
         }).eq('id', id)
         setShowModal(false)
     }
@@ -126,6 +128,29 @@ const ProductListTable = ({ type, data }) => {
         }
     }
 
+    const workerBack = async (worker, id) => {
+        try{
+            if(worker === '작업중') {
+                await supabase.from('product_list').update({
+                    'worker': '작업전'
+                }).eq('id', id)
+                setShowModal(false)
+            }else if(worker === '작업완료') {
+                await supabase.from('product_list').update({
+                    'worker': '작업중'
+                }).eq('id', id)
+                setShowModal(false)
+            }else if(worker === '출하완료') {
+                await supabase.from('product_list').update({
+                    'worker': '작업완료'
+                }).eq('id', id)
+                setShowModal(false)
+            }
+        }catch (e){
+            console.error(e.message)
+        }
+    }
+
     return (
         <div>
             <h1 className={`text-xl font-bold mb-2 ${type === '기타' && 'text-orange-500'}`}>{type}</h1>
@@ -175,7 +200,7 @@ const ProductListTable = ({ type, data }) => {
                     <div className="flex space-x-4 mt-4 mb-4">
                         <button className="bg-indigo-500 text-white px-4 py-2 rounded" onClick={() => goToUpdate(selectedItem.id)}>수정</button>
                         <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => deleteProduct(selectedItem.id)}>삭제</button>
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => drawingBtn(selectedItem.id)}>도면배포</button>
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => drawingBtn(selectedItem.id, selectedItem.drawing)}>{selectedItem.drawing ? '배포취소':'도면배포'}</button>
                     </div>
                     <div className="mt-2 mb-8">
                         <button className="bg-warning text-white px-4 py-2 rounded" onClick={() => setShowDatePicker(!showDatePicker)}>검수날짜 변경</button>
@@ -198,14 +223,14 @@ const ProductListTable = ({ type, data }) => {
                     </div>
                     <span className="text-xl font-bold">작업변경</span>
                     <div className="mt-2">
-                        <button className="bg-info text-white px-4 py-2 rounded" onClick={() => changeWorker(selectedItem.worker, selectedItem.id)}>
+                        <button className="bg-info text-white px-4 py-2 mr-4 rounded" onClick={() => changeWorker(selectedItem.worker, selectedItem.id)}>
                             {
                                 selectedItem.worker === '작업전' ? '작업중 변경' :
                                     selectedItem.worker === '작업중' ? '작업완료 변경' :
                                         selectedItem.worker === '작업완료' ? '출하완료 변경' : '출하가 완료되었습니다.'
                             }
                         </button>
-                        <button></button>
+                        {selectedItem.worker !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBack(selectedItem.worker,selectedItem.id)} />}
                     </div>
                 </Modal>
             )}
