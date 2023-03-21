@@ -12,7 +12,7 @@ const List = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data, error } = await supabase.from("product_list").select().eq('test_date', date).order('company', {ascending: true});
+            const { data, error } = await supabase.from("product_list").select().eq('test_date', date).order('company', {ascending: true}).order('place', {ascending: true});
             if (error) {
                 console.error("Error fetching data:", error);
             } else {
