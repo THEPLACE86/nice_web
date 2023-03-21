@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import Modal from "../util/model";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {supabase} from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import {useRouter} from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
+import Switch from "react-switch";
 
 const TableTH = styled.th`
   ${tw`border border-gray-400 p-1 text-center`}
@@ -24,7 +25,34 @@ const ProductListTable = ({ type, data }) => {
     const [selectedItem, setSelectedItem] = useState(null); // 선택된 항목에 대한 상태를 추가합니다.
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+
+    const [showNewModal, setShowNewModal] = useState(false);
+
+    const [area, setArea] = useState('');
+    const [memo, setMemo] = useState('');
+    const [checkAll, setCheckAll] = useState(false);
+    const [isDirect, setIsDirect] = useState(false);
+
+
     const router = useRouter()
+
+    const handleSave = async () => {
+        // Supabase 인서트 코드를 작성하세요.
+
+        // 데이터 초기화
+        setArea('');
+        setMemo('');
+        setCheckAll(false);
+        setIsDirect(false);
+
+        // 모달 닫기
+        setShowNewModal(false);
+    };
+
+    const handleShipmentButtonClick = () => {
+        setShowModal(false);
+        setShowNewModal(true);
+    };
 
     const handleRowClick = (item) => {
         setSelectedItem(item); // 행이 클릭되면 선택된 항목을 설정합니다.
@@ -198,9 +226,10 @@ const ProductListTable = ({ type, data }) => {
                     <span className="font-bold text-2xl">{selectedItem.company} {selectedItem.place} {selectedItem.area}</span>
                     <p className="text-xl font-bold mt-6">설계부</p>
                     <div className="flex space-x-4 mt-4 mb-4">
-                        <button className="bg-indigo-500 text-white px-4 py-2 rounded" onClick={() => goToUpdate(selectedItem.id)}>수정</button>
+                        <button className="bg-secondary text-white px-4 py-2 rounded" onClick={() => goToUpdate(selectedItem.id)}>수정</button>
                         <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => deleteProduct(selectedItem.id)}>삭제</button>
                         <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => drawingBtn(selectedItem.id, selectedItem.drawing)}>{selectedItem.drawing ? '배포취소':'도면배포'}</button>
+                        <button className="bg-indigo-500 text-white px-4 py-2 rounded" onClick={handleShipmentButtonClick}>출하</button>
                     </div>
                     <div className="mt-2 mb-8">
                         <button className="bg-warning text-white px-4 py-2 rounded" onClick={() => setShowDatePicker(!showDatePicker)}>검수날짜 변경</button>
@@ -234,6 +263,66 @@ const ProductListTable = ({ type, data }) => {
                     </div>
                 </Modal>
             )}
+            {showNewModal && (
+                <Modal onClose={() => setShowNewModal(false)}>
+                    <div className="space-y-4">
+                        <div>
+                            <span className="font-bold text-2xl">출하목록 추가</span>
+                        </div>
+
+                        <div>
+                            <label htmlFor="area" className="text-xl">구역명:</label>
+                            <input
+                                type="text"
+                                id="area"
+                                value={area}
+                                onChange={(e) => setArea(e.target.value)}
+                                className="border rounded px-2 py-1 ml-2 h-8"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="memo" className="text-xl">메모:</label>
+                            <input
+                                type="text"
+                                id="memo"
+                                value={memo}
+                                onChange={(e) => setMemo(e.target.value)}
+                                className="border rounded px-2 py-1 ml-2 h-8"
+                            />
+                        </div>
+
+                        <div>
+                            <input
+                                type="checkbox"
+                                id="checkAll"
+                                checked={checkAll}
+                                onChange={(e) => setCheckAll(e.target.checked)}
+                                className="form-checkbox h-6 w-6"
+                            />
+                            <label htmlFor="checkAll" className="text-xl ml-2">전체 구역</label>
+                        </div>
+
+                        <div>
+                            <label htmlFor="direct" className="text-xl">당착/내착:</label>
+                            <input
+                                type="checkbox"
+                                id="direct"
+                                checked={isDirect}
+                                onChange={(e) => setIsDirect(e.target.checked)}
+                                className="form-checkbox h-6 w-6 ml-2"
+                            />
+                        </div>
+
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                            onClick={handleSave}
+                        >
+                            저장
+                        </button>
+                    </div>
+                </Modal>
+                )}
         </div>
     );
 }

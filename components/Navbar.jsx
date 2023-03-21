@@ -7,7 +7,7 @@ const Navbar = () => {
     const router = useRouter()
 
     return(
-        <div className={`print:hidden navbar bg-neutral text-neutral-content rounded-xl ${router.pathname === '/shipment' && 'w-[700px] mx-auto'}`}>
+        <div className={`print:hidden navbar bg-neutral text-neutral-content rounded-xl`}>
             <div className="flex-1">
                 <Link href="/">
                     <span
