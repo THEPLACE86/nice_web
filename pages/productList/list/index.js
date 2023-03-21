@@ -8,11 +8,11 @@ const List = (props) => {
     const { date } = props;
     const router = useRouter()
     const [data, setData] = useState([]);
-    const workTypes = ["용접/무용접", "전실/입상", "나사", "기타"];
+    const workTypes = ["용접/무용접", "전실/입상", "나사"];
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data, error } = await supabase.from("product_list").select().eq('test_date', date).order('created_at', {ascending: true});
+            const { data, error } = await supabase.from("product_list").select().eq('test_date', date).order('company', {ascending: true});
             if (error) {
                 console.error("Error fetching data:", error);
             } else {

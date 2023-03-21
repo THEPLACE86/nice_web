@@ -143,7 +143,6 @@ const Create = (props) => {
                             <option value="용접/무용접">용접/무용접</option>
                             <option value="전실/입상">전실/입상</option>
                             <option value="나사">나사</option>
-                            <option value="기타">기타</option>
                         </select>
                         {errors.workType && (
                             <p className="text-red-500 text-sm">{errors.workType}</p>
