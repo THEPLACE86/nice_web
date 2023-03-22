@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import {useRouter} from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
-import ProductModal from "./ProductModal";
+import loadDataFromLocalStorage from "../../utils/localStorage";
 
 const TableTH = styled.th`
   ${tw`border border-gray-400 p-1 text-center`}
@@ -27,27 +27,40 @@ const ProductListTable = ({ type, data }) => {
     const [selectedDate, setSelectedDate] = useState(null);
 
     const [showNewModal, setShowNewModal] = useState(false);
-
-    const [area, setArea] = useState('');
-    const [memo, setMemo] = useState('');
-    const [checkAll, setCheckAll] = useState(false);
-    const [isDirect, setIsDirect] = useState(false);
-
-
     const router = useRouter()
 
-    const handleSave = async () => {
-        // Supabase 인서트 코드를 작성하세요.
+    const [content, setContent] = useState('');
+    const [notes, setNotes] = useState('');
+    const [area, setArea] = useState([]);
+    const [status, setStatus] = useState('');
 
-        // 데이터 초기화
-        setArea('');
-        setMemo('');
-        setCheckAll(false);
-        setIsDirect(false);
+    const [date, setDate] = useState(new Date());
 
-        // 모달 닫기
-        setShowNewModal(false);
-    };
+    async function saveShipment(){
+        const { data: { user } } = await supabase.auth.getUser()
+        const userData = loadDataFromLocalStorage('user')
+
+        const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+        const dateString = dateFormatter.format(date);
+
+        const { error } = await supabase.from('shipment').insert({
+            'shipment_content': content,
+            'memo': notes,
+            'all_area': area,
+            'radio': status,
+            'place': selectedItem.company + ' ' + selectedItem.place,
+            'name': userData.name,
+            'uid': user.id,
+            'test_date': selectedItem.test_date,
+            'initial': selectedItem.initial,
+            'shipment_date' : dateString
+        });
+        if (error) {
+            console.error('Error inserting data: ', error);
+        } else {
+            setShowNewModal(false);
+        }
+    }
 
     const handleShipmentButtonClick = () => {
         setShowModal(false);
@@ -263,7 +276,105 @@ const ProductListTable = ({ type, data }) => {
                     </div>
                 </Modal>
             )}
-            <ProductModal isOpen={showNewModal} onClose={() => setShowNewModal(false)} />
+            {showNewModal && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="modal modal-open">
+                        <div className="modal-box space-y-4">
+                            <h2 className="text-xl font-bold">{selectedItem.company} {selectedItem.place} 출하목록 추가</h2>
+                            <div>
+                                <DatePicker
+                                    selected={date}
+                                    onChange={(date) => setDate(date)}
+                                    dateFormat="yyyy년 M월 d일"
+                                    className="input input-bordered w-full"
+                                />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">출하내용</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input input-bordered"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">특이사항(도착시간)</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input input-bordered"
+                                    value={notes}
+                                    onChange={(e) => setNotes(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label w-24">
+                                    <span className="label-text font-bold ">전체구역</span>
+                                    <input
+                                        type="checkbox"
+                                        className="checkbox ml-2"
+                                        value={area}
+                                        onChange={(e) => setArea(e.target.checked)}
+                                    />
+                                </label>
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text font-bold">출하 상태</span>
+                                </label>
+                                <div className="flex">
+                                    <label className="cursor-pointer flex items-center mr-4">
+                                        <input
+                                            type="radio"
+                                            name="status"
+                                            className="radio mr-2"
+                                            value="당착"
+                                            onChange={() => setStatus("당착")}
+                                        />
+                                        당착
+                                    </label>
+                                    <label className="cursor-pointer flex items-center mr-4">
+                                        <input
+                                            type="radio"
+                                            name="status"
+                                            className="radio mr-2"
+                                            value="내착"
+                                            onChange={() => setStatus("내착")}
+                                        />
+                                        내착
+                                    </label>
+                                    <label className="cursor-pointer flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="status"
+                                            className="radio mr-2"
+                                            value="야상"
+                                            onChange={() => setStatus("야상")}
+                                        />
+                                        야상
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end space-x-2">
+                                <button className="btn" onClick={() => setShowNewModal(false)}>
+                                    취소
+                                </button>
+                                <button className="btn btn-primary" onClick={saveShipment}>
+                                    저장
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
