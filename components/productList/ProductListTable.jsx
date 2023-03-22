@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import {useRouter} from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
-import Switch from "react-switch";
+import ProductModal from "./ProductModal";
 
 const TableTH = styled.th`
   ${tw`border border-gray-400 p-1 text-center`}
@@ -263,66 +263,7 @@ const ProductListTable = ({ type, data }) => {
                     </div>
                 </Modal>
             )}
-            {showNewModal && (
-                <Modal onClose={() => setShowNewModal(false)}>
-                    <div className="space-y-4">
-                        <div>
-                            <span className="font-bold text-2xl">출하목록 추가</span>
-                        </div>
-
-                        <div>
-                            <label htmlFor="area" className="text-xl">구역명:</label>
-                            <input
-                                type="text"
-                                id="area"
-                                value={area}
-                                onChange={(e) => setArea(e.target.value)}
-                                className="border rounded px-2 py-1 ml-2 h-8"
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="memo" className="text-xl">메모:</label>
-                            <input
-                                type="text"
-                                id="memo"
-                                value={memo}
-                                onChange={(e) => setMemo(e.target.value)}
-                                className="border rounded px-2 py-1 ml-2 h-8"
-                            />
-                        </div>
-
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="checkAll"
-                                checked={checkAll}
-                                onChange={(e) => setCheckAll(e.target.checked)}
-                                className="form-checkbox h-6 w-6"
-                            />
-                            <label htmlFor="checkAll" className="text-xl ml-2">전체 구역</label>
-                        </div>
-
-                        <div>
-                            <label htmlFor="direct" className="text-xl">당착/내착:</label>
-                            <input
-                                type="checkbox"
-                                id="direct"
-                                checked={isDirect}
-                                onChange={(e) => setIsDirect(e.target.checked)}
-                                className="form-checkbox h-6 w-6 ml-2"
-                            />
-                        </div>
-
-                        <button
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                            onClick={handleSave}
-                        >
-                            저장
-                        </button>
-                    </div>
-                </Modal>
-                )}
+            <ProductModal isOpen={showNewModal} onClose={() => setShowNewModal(false)} />
         </div>
     );
 }
