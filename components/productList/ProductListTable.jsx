@@ -31,7 +31,7 @@ const ProductListTable = ({ type, data }) => {
 
     const [content, setContent] = useState('');
     const [notes, setNotes] = useState('');
-    const [area, setArea] = useState([]);
+    const [area, setArea] = useState(false);
     const [status, setStatus] = useState('');
 
     const [date, setDate] = useState(new Date());
