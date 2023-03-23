@@ -49,6 +49,13 @@ const Create = (props) => {
                 name: userData.name,
                 uid: user.id
             });
+            await supabase.from('product_history').insert({
+                'place': formData.company + ' ' + formData.place + ' ' + formData.area,
+                'test_date': date,
+                'name': userData.name,
+                'uid': user.id,
+                'old_state': '작업전',
+            })
             router.back();
         } else {
             setErrors(newErrors)

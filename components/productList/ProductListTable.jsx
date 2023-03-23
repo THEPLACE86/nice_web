@@ -16,7 +16,7 @@ const TableTH = styled.th`
   width: ${(props) => props.width};
 `;
 
-const ProductListTable = ({ type, data }) => {
+const ProductListTable = ({ type, data, test_date }) => {
     const totalHead = data.reduce((sum, item) => sum + item.head, 0);
     const totalHole = data.reduce((sum, item) => sum + item.hole, 0);
     const totalGroove = data.reduce((sum, item) => sum + item.groove, 0);
@@ -126,22 +126,48 @@ const ProductListTable = ({ type, data }) => {
         }
     };
     const changeWorker = async (worker, id) => {
-        console.log(data.worker)
+        const { data: { user } } = await supabase.auth.getUser()
+        const userData = loadDataFromLocalStorage('user')
+
         try{
             if(worker === '작업전'){
                 await supabase.from('product_list').update({
                     'worker':'작업중'
                 }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker,
+                    'new_state': '작업중'
+                })
                 setShowModal(false)
             }else if(worker === '작업중') {
                 await supabase.from('product_list').update({
                     'worker': '작업완료'
                 }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker,
+                    'new_state': '작업완료'
+                })
                 setShowModal(false)
             }else if(worker === '작업완료') {
                 await supabase.from('product_list').update({
                     'worker': '출하완료'
                 }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker,
+                    'new_state': '출하완료'
+                })
                 setShowModal(false)
             }
         }catch (e){
@@ -170,21 +196,48 @@ const ProductListTable = ({ type, data }) => {
     }
 
     const workerBack = async (worker, id) => {
+        const { data: { user } } = await supabase.auth.getUser()
+        const userData = loadDataFromLocalStorage('user')
+
         try{
             if(worker === '작업중') {
                 await supabase.from('product_list').update({
                     'worker': '작업전'
                 }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker,
+                    'new_state': '작업전',
+                })
                 setShowModal(false)
             }else if(worker === '작업완료') {
                 await supabase.from('product_list').update({
                     'worker': '작업중'
                 }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker,
+                    'new_state': '작업중',
+                })
                 setShowModal(false)
             }else if(worker === '출하완료') {
                 await supabase.from('product_list').update({
                     'worker': '작업완료'
                 }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker,
+                    'new_state': '작업완료',
+                })
                 setShowModal(false)
             }
         }catch (e){
@@ -194,6 +247,7 @@ const ProductListTable = ({ type, data }) => {
 
     return (
         <div>
+
             <h1 className={`text-xl font-bold mb-2 ${type === '기타' && 'text-orange-500'}`}>{type}</h1>
             <table className="w-full border-collapse mx-auto">
                 <thead>

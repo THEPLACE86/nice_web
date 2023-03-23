@@ -78,6 +78,13 @@ const List = (props) => {
         });
     }
 
+    const goToHistory = () => {
+        router.push({
+            pathname: '/productList/history',
+            query: { date: date },
+        });
+    }
+
     const moveDate = (next) => {
         if (next){
             const newDate = new Date(date.replace(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/, '$1-$2-$3'));
@@ -121,7 +128,7 @@ const List = (props) => {
                     </span>
                 </div>
                 <div className="flex items-center">
-                    <button className="print:hidden btn btn-info rounded text-white w-32 mr-4" onClick={goToCreate}>히스토리</button>
+                    <button className="print:hidden btn btn-info rounded text-white w-32 mr-4" onClick={goToHistory}>히스토리</button>
                     <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={goToCreate}>등록</button>
                 </div>
             </div>
@@ -130,6 +137,7 @@ const List = (props) => {
                     key={type}
                     type={type}
                     data={data.filter((item) => item.work_type === type)}
+                    test_date={date}
                 />
             ))}
             <div className="mt-10">
