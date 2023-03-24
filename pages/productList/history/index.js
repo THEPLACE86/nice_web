@@ -1,14 +1,16 @@
-import {useEffect, useState} from "react";
-import {supabase} from "../../../utils/supabaseClient";
-import List from "../list";
+import { useEffect, useState } from "react";
+import { supabase } from "../../../utils/supabaseClient";
+import {useRouter} from "next/navigation";
 
 const History = (props) => {
-    const { date } = props
+    const { date } = props;
     const [data, setData] = useState([]);
+    const [search, setSearch] = useState("");
+    const router = useRouter()
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [search]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -22,15 +24,34 @@ const History = (props) => {
     };
 
     const fetchData = async () => {
-        const { data, error } = await supabase.from('product_history').select().eq('test_date', date).order('updated_at', {ascending: false});
+        const { data, error } = await supabase
+            .from("product_history")
+            .select()
+            .like('place', `%${search}%`)
+            .eq("test_date", date)
+            .order("updated_at", { ascending: false });
         if (error) console.error(error);
         else setData(data);
+    };
+
+    const handleSearchChange = (event) => {
+        setSearch(event.target.value);
     };
 
     return (
         <div className="w-[800px] mx-auto p-4">
             <div className="text-center mb-6 mt-6">
                 <span className="font-bold text-2xl">{date} 히스토리</span>
+                <button className="btn btn-primary ml-4" onClick={() => router.back()}>뒤로가기</button>
+                <div className="mt-4">
+                    <input
+                        type="text"
+                        className="border-2 border-gray-300 p-2 rounded w-full"
+                        value={search}
+                        onChange={handleSearchChange}
+                        placeholder="회사명 , 현장명, 구역명 전체 검색"
+                    />
+                </div>
             </div>
             <ul>
                 {data.map((item) => (
@@ -50,11 +71,10 @@ const History = (props) => {
             </ul>
         </div>
     );
-}
-
-History.getInitialProps = ({ query }) => {
-    return { date: query.date }
 };
 
+History.getInitialProps = ({ query }) => {
+    return { date: query.date };
+};
 
-export default History
+export default History;
