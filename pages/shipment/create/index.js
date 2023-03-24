@@ -1,23 +1,33 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {supabase} from "../../../utils/supabaseClient";
 import {useRouter} from "next/router";
 import loadDataFromLocalStorage from "../../../utils/localStorage";
+import ko from "date-fns/locale/ko";
+import DatePicker from "react-datepicker";
 
 const Create = (props) => {
     const { date } = props;
     const router = useRouter();
+    const [selectDate, setSelectDate] = useState(new Date());
+    const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+    const dateString = dateFormatter.format(selectDate);
     const [formData, setFormData] = useState({
         company: "",
         place: "",
-        area: "",
-        workType: "",
-        head: 0,
-        hole: 0,
-        groove: 0,
+        shipment: "",
+        type: "",
         memo: "",
-        initial: "",
+        initial: ""
     });
+    const [area, setArea] = useState(false)
+    const [notTest, setNotTest] = useState(false)
     const [errors, setErrors] = useState({});
+
+    const handleDateChange = (date) => {
+        console.log(date.value)
+        setSelectDate(date);
+    };
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -35,19 +45,17 @@ const Create = (props) => {
 
             const userData = loadDataFromLocalStorage('user')
 
-            await supabase.from("product_list").insert({
-                company: formData.company,
-                place: formData.place,
-                area: formData.area,
-                work_type: formData.workType,
-                head: formData.head,
-                hole: formData.hole,
-                groove: formData.groove,
-                memo: formData.memo,
-                test_date: date,
-                initial: formData.initial,
-                name: userData.name,
-                uid: user.id
+            await supabase.from("shipment").insert({
+                "place": formData.company + ' ' + formData.place,
+                "radio": formData.type,
+                "memo": formData.memo,
+                "shipment_content": formData.shipment,
+                "test_date": notTest ? '' : dateString,
+                "shipment_date": date,
+                "name": userData.name,
+                "initial": formData.initial,
+                "uid": user.id,
+                "drawing" : area
             });
             router.back();
         } else {
@@ -94,7 +102,7 @@ const Create = (props) => {
                             )}
                         </div>
                         <div>
-                            <label htmlFor="area" className="block mb-2">
+                            <label htmlFor="place" className="block mb-2">
                                 이니셜
                             </label>
                             <input
@@ -111,85 +119,26 @@ const Create = (props) => {
                         </div>
                     </div>
 
-                    {/* 작업 선택 */}
                     <div className="mb-4">
-                        <label htmlFor="workType" className="block mb-2">
-                            도착 시간
+                        <label htmlFor="memo" className="block mb-2">
+                            출하내용
                         </label>
-                        <select
-                            name="workType"
-                            id="workType"
-                            value={formData.workType} onChange={handleChange}
+                        <textarea
+                            name="shipment"
+                            id="shipment"
+                            value={formData.shipment}
+                            onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md p-2"
-                        >
-                            <option value="">선택해주세요</option>
-                            <option value="야상">야상</option>
-                            <option value="당착">당착</option>
-                            <option value="내착">내착</option>
-                            <option value="택배">택배</option>
-                        </select>
-                        {errors.workType && (
-                            <p className="text-red-500 text-sm">{errors.workType}</p>
+                            rows="1"
+                        ></textarea>
+                        {errors.memo && (
+                            <p className="text-red-500 text-sm">{errors.memo}</p>
                         )}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 mb-4">
-                        <div>
-                            <label htmlFor="head" className="block mb-2">
-                                출하내용
-                            </label>
-                            <input
-                                type="text"
-                                name="head"
-                                id="head"
-                                value={formData.head}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                            {errors.head && (
-                                <p className="text-red-500 text-sm">{errors.head}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="hole" className="block mb-2">
-                                홀
-                            </label>
-                            <input
-                                type="number"
-                                name="hole"
-                                min="0"
-                                id="hole"
-                                value={formData.hole}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                            {errors.hole && (
-                                <p className="text-red-500 text-sm">{errors.hole}</p>
-                            )}
-                        </div>
-                        <div>
-                            <label htmlFor="groove" className="block mb-2">
-                                그루브
-                            </label>
-                            <input
-                                type="number"
-                                name="groove"
-                                min="0"
-                                id="groove"
-                                value={formData.groove}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-md p-2"
-                            />
-                            {errors.groove && (
-                                <p className="text-red-500 text-sm">{errors.groove}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* 비고 */}
                     <div className="mb-4">
                         <label htmlFor="memo" className="block mb-2">
-                            비고
+                            특이사항(도착시간)
                         </label>
                         <textarea
                             name="memo"
@@ -197,12 +146,61 @@ const Create = (props) => {
                             value={formData.memo}
                             onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md p-2"
-                            rows="2"
-                            maxLength="100"
+                            rows="1"
                         ></textarea>
                         {errors.memo && (
                             <p className="text-red-500 text-sm">{errors.memo}</p>
                         )}
+                    </div>
+
+                    {/* 작업 선택 */}
+                    <div className="mb-4">
+                        <label htmlFor="type" className="block mb-2">
+                            도착 시간
+                        </label>
+                        <select
+                            name="type"
+                            id="type"
+                            value={formData.type} onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-md p-2"
+                        >
+                            <option value="">선택해주세요</option>
+                            <option value="당착(오전)">당착(오전)</option>
+                            <option value="당착(오후)">당착(오후)</option>
+                            <option value="야상">야상</option>
+                            <option value="택배">택배</option>
+                        </select>
+                        {errors.type && (
+                            <p className="text-red-500 text-sm">{errors.type}</p>
+                        )}
+                    </div>
+                    <DatePicker
+                        onChange={handleDateChange}
+                        locale={ko} dateFormat="yyyy년 MM월 dd일"
+                        inline
+                        filterDate={(date) => date.getDay() === 2}
+                    />
+                    <div className="form-control">
+                        <label className="label w-36">
+                            <span className="label-text font-bold ">비검수</span>
+                            <input
+                                type="checkbox"
+                                className="checkbox ml-2"
+                                value={notTest}
+                                onChange={(e) => setNotTest(e.target.checked)}
+                            />
+                        </label>
+                    </div>
+                    <div className="form-control">
+                        <label className="label w-36">
+                            <span className="label-text font-bold ">도면배포 여부</span>
+                            <input
+                                type="checkbox"
+                                className="checkbox ml-2"
+                                value={area}
+                                onChange={(e) => setArea(e.target.checked)}
+                            />
+                        </label>
                     </div>
 
                     {/* 제출 버튼 */}

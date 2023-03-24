@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {supabase} from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
+import {router} from "next/client";
 
 export default function ShipmentList() {
     const [shipments, setShipments] = useState([]);
@@ -23,10 +24,17 @@ export default function ShipmentList() {
         else setShipments(data);
     }
 
+    const goToCreate = () => {
+        router.push({
+            pathname: '/shipment/create',
+            query: { date: dateString },
+        });
+    }
+
     return (
-        <div className="container mx-auto px-4">
+        <div className="mx-auto px-4">
             <div className="flex mt-10 mb-10 items-center">
-                <div className="text-center w-full ml-40">
+                <div className="text-center w-full ml-32">
                     <span className="font-bold text-3xl">
                         <span className="text-orange-600 font-bold text-3xl">{dateString}</span> 출하목록
                     </span>
@@ -39,7 +47,7 @@ export default function ShipmentList() {
                             dateFormat="yyyy년 M월 d일"
                             className="print:hidden cursor-pointer bg-white border border-gray-300 rounded p-2 text-gray-600 text-center w-48"
                         />
-                        <button className="print:hidden btn btn-primary rounded text-white w-32">등록</button>
+                        <button onClick={goToCreate} className="print:hidden btn btn-primary rounded text-white w-32">등록</button>
                     </div>
                 </div>
             </div>
@@ -48,8 +56,9 @@ export default function ShipmentList() {
                 <thead>
                 <tr className="text-center bg-light-blue-200">
                     <th className="w-10 p-2 bg-blue-50 border border-gray-300">no</th>
-                    <th className="w-20 p-2 bg-blue-50 border border-gray-300">담당자</th>
+                    <th className="w-16 p-2 bg-blue-50 border border-gray-300">담당자</th>
                     <th className="w-12 p-2 bg-blue-50 border border-gray-300">도면</th>
+                    <th className="w-14 p-2 bg-blue-50 border border-gray-300">이니셜</th>
                     <th className="w-48 p-2 bg-blue-50 border border-gray-300">업체 및 현장명</th>
                     <th className="w-96 p-2 bg-blue-50 border border-gray-300">출하내용</th>
                     <th className="w-32 p-2 bg-blue-50 border border-gray-300">검수일자</th>
@@ -62,10 +71,11 @@ export default function ShipmentList() {
                         <td className="p-2 border border-gray-300">{index + 1}</td>
                         <td className="p-2 border border-gray-300">{shipment.name}</td>
                         <td className="p-2 border border-gray-300">{shipment.drawing ? 'O' : 'X'}</td>
+                        <td className="p-2 border border-gray-300">{shipment.initial}</td>
                         <td className="p-2 border border-gray-300">{shipment.place}</td>
                         <td className="p-2 border border-gray-300">{shipment.shipment_content}</td>
                         <td className="p-2 border border-gray-300">{shipment.test_date}</td>
-                        <td className="p-2 border border-gray-300">{shipment.memo} ({shipment.radio})</td>
+                        <td className="p-2 border border-gray-300">{shipment.memo} (<span className="font-bold text-red-600">{shipment.radio}</span>)</td>
                     </tr>
                 ))}
                 </tbody>

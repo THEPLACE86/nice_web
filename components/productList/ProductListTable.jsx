@@ -52,6 +52,7 @@ const ProductListTable = ({ type, data, test_date }) => {
             'name': userData.name,
             'uid': user.id,
             'test_date': selectedItem.test_date,
+            'drawing': !!selectedItem.drawing,
             'initial': selectedItem.initial,
             'shipment_date' : dateString
         });
@@ -389,20 +390,20 @@ const ProductListTable = ({ type, data, test_date }) => {
                                             type="radio"
                                             name="status"
                                             className="radio mr-2"
-                                            value="당착"
-                                            onChange={() => setStatus("당착")}
+                                            value="당착(오전)"
+                                            onChange={() => setStatus("당착(오전)")}
                                         />
-                                        당착
+                                        당착(오전)
                                     </label>
                                     <label className="cursor-pointer flex items-center mr-4">
                                         <input
                                             type="radio"
                                             name="status"
                                             className="radio mr-2"
-                                            value="내착"
-                                            onChange={() => setStatus("내착")}
+                                            value="당착(오후)"
+                                            onChange={() => setStatus("당착(오후)")}
                                         />
-                                        내착
+                                        당착(오후)
                                     </label>
                                     <label className="cursor-pointer flex items-center">
                                         <input
@@ -413,6 +414,16 @@ const ProductListTable = ({ type, data, test_date }) => {
                                             onChange={() => setStatus("야상")}
                                         />
                                         야상
+                                    </label>
+                                    <label className="cursor-pointer flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="status"
+                                            className="radio mr-2"
+                                            value="택배"
+                                            onChange={() => setStatus("택배")}
+                                        />
+                                        택배
                                     </label>
                                 </div>
                             </div>
