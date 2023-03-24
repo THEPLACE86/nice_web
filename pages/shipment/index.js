@@ -59,7 +59,7 @@ export default function ShipmentList() {
                     <th className="w-10 p-2 bg-blue-50 border border-gray-300">no</th>
                     <th className="w-16 p-2 bg-blue-50 border border-gray-300">담당자</th>
                     <th className="w-12 p-2 bg-blue-50 border border-gray-300">도면</th>
-                    <th className="w-14 p-2 bg-blue-50 border border-gray-300">이니셜</th>
+                    <th className="w-16 p-2 bg-blue-50 border border-gray-300">이니셜</th>
                     <th className="w-48 p-2 bg-blue-50 border border-gray-300">업체 및 현장명</th>
                     <th className="w-96 p-2 bg-blue-50 border border-gray-300">출하내용</th>
                     <th className="w-32 p-2 bg-blue-50 border border-gray-300">검수일자</th>
