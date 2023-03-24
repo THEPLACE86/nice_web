@@ -77,9 +77,9 @@ const ProductListTable = ({ type, data, test_date }) => {
             case '작업중':
                 return 'bg-blue-500 text-white';
             case '작업완료':
-                return 'bg-red-500 text-white';
+                return 'bg-black text-white';
             case '출하완료':
-                return 'bg-orange-500 text-white';
+                return 'bg-red-500 text-white';
             default:
                 return 'bg-white';
         }
