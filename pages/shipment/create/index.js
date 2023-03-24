@@ -153,7 +153,7 @@ const Create = (props) => {
                         )}
                     </div>
 
-                    {/* 작업 선택 */}
+
                     <div className="mb-4">
                         <label htmlFor="type" className="block mb-2">
                             도착 시간
