@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import {supabase} from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
-import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 export default function ShipmentList() {
     const [shipments, setShipments] = useState([]);
     const [selectDate, setSelectDate] = useState(new Date());
     const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
     const dateString = dateFormatter.format(selectDate);
+    const router = useRouter()
 
     const handleDateChange = (date) => {
         setSelectDate(date);
