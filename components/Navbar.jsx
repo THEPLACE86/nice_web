@@ -21,6 +21,12 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="flex-none mr-6">
+                <Link href="/processing">
+                    <span
+                        className={`${router.pathname.includes ("/processing") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>배포대장</span >
+                </Link>
+            </div>
+            <div className="flex-none mr-6">
                 <Link href="/shipment">
                     <span
                         className={`${router.pathname.includes ("/shipment") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>출하일정</span >

@@ -370,7 +370,7 @@ const ProductListTable = ({ type, data, test_date }) => {
 
                             <div className="form-control">
                                 <label className="label w-24">
-                                    <span className="label-text font-bold ">전체구역</span>
+                                    <span className="label-text font-bold ">도면배포</span>
                                     <input
                                         type="checkbox"
                                         className="checkbox ml-2"
@@ -405,7 +405,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                                         />
                                         당착(오후)
                                     </label>
-                                    <label className="cursor-pointer flex items-center">
+                                    <label className="cursor-pointer flex items-center mr-4">
                                         <input
                                             type="radio"
                                             name="status"
