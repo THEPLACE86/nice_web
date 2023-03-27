@@ -88,6 +88,10 @@ const ProductListTable = ({ type, data, test_date }) => {
         const className = `text-sm ${getStatusClassName(item.worker)}`;
         return <TableTH className={className}>{item.worker}</TableTH>;
     }
+    const WorkerCellMain = ({ item }) => {
+        const className = `text-sm ${getStatusClassName(item.worker_main)}`;
+        return <TableTH className={className}>{item.worker_main}</TableTH>;
+    }
     const drawingBtn = async (id, drawing) => {
         await supabase.from('product_list').update({
             'drawing' : !drawing
@@ -175,6 +179,55 @@ const ProductListTable = ({ type, data, test_date }) => {
             console.error(e.message)
         }
     }
+    const changeWorkerMain = async (worker_main, id) => {
+        const { data: { user } } = await supabase.auth.getUser()
+        const userData = loadDataFromLocalStorage('user')
+
+        try{
+            if(worker_main === '작업전'){
+                await supabase.from('product_list').update({
+                    'worker_main':'작업중'
+                }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker_main,
+                    'new_state': '작업중'
+                })
+                setShowModal(false)
+            }else if(worker_main === '작업중') {
+                await supabase.from('product_list').update({
+                    'worker_main': '작업완료'
+                }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker_main,
+                    'new_state': '작업완료'
+                })
+                setShowModal(false)
+            }else if(worker_main === '작업완료') {
+                await supabase.from('product_list').update({
+                    'worker_main': '출하완료'
+                }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker_main,
+                    'new_state': '출하완료'
+                })
+                setShowModal(false)
+            }
+        }catch (e){
+            console.error(e.message)
+        }
+    }
 
     const goToUpdate = (id) => {
         router.push({
@@ -245,6 +298,55 @@ const ProductListTable = ({ type, data, test_date }) => {
             console.error(e.message)
         }
     }
+    const workerBackMain = async (worker_main, id) => {
+        const { data: { user } } = await supabase.auth.getUser()
+        const userData = loadDataFromLocalStorage('user')
+
+        try{
+            if(worker_main === '작업중') {
+                await supabase.from('product_list').update({
+                    'worker_main': '작업전'
+                }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker_main,
+                    'new_state': '작업전',
+                })
+                setShowModal(false)
+            }else if(worker_main === '작업완료') {
+                await supabase.from('product_list').update({
+                    'worker_main': '작업중'
+                }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker_main,
+                    'new_state': '작업중',
+                })
+                setShowModal(false)
+            }else if(worker_main === '출하완료') {
+                await supabase.from('product_list').update({
+                    'worker_main': '작업완료'
+                }).eq('id', id)
+                await supabase.from('product_history').insert({
+                    'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
+                    'test_date': test_date,
+                    'name': userData.name,
+                    'uid': user.id,
+                    'old_state': worker_main,
+                    'new_state': '작업완료',
+                })
+                setShowModal(false)
+            }
+        }catch (e){
+            console.error(e.message)
+        }
+    }
 
     return (
         <div>
@@ -253,7 +355,8 @@ const ProductListTable = ({ type, data, test_date }) => {
             <table className="w-full border-collapse mx-auto">
                 <thead>
                 <tr>
-                    <TableTH width="4.5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>작업현황</TableTH>
+                    <TableTH width="4.5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>{type === '용접/무용접' ? '가지관': '작업현황'}</TableTH>
+                    {type === '용접/무용접' && <TableTH width="4.5rem" className={'bg-blue-50 text-sm'}>메인관</TableTH>}
                     <TableTH width="3.5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>이니셜</TableTH>
                     <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>담당</TableTH>
                     <TableTH width="7rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>회사</TableTH>
@@ -269,6 +372,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                 {data.map((item, index) => (
                     <tr key={index} onClick={() => handleRowClick(item)} className="cursor-pointer">
                         <WorkerCell item={item} />
+                        {type === '용접/무용접' && <WorkerCellMain item={item} />}
                         <TableTH className={`text-sm font-normal ${item.paper && 'bg-accent'} ${item.worker === '출하완료' && 'line-through'}`}>{item.initial}</TableTH>
                         <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.name}</TableTH>
                         <TableTH className={`text-sm font-normal ${item.drawing && 'bg-orange-200'} ${item.worker === '출하완료' && 'line-through'}`}>{item.company}</TableTH>
@@ -281,7 +385,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                     </tr>
                 ))}
                 <tr>
-                    <td colSpan="6" className="text-sm border-none p-1 text-center font-semibold text-end">합계</td>
+                    <td colSpan={type !== '용접/무용접' ? '6' : '7'} className="text-sm border-none p-1 text-center font-semibold text-end">합계</td>
                     <TableTH className="text-sm bg-yellow-100">{ totalHead !== 0 && totalHead }</TableTH>
                     <TableTH className="text-sm bg-yellow-100">{ totalHole !== 0 && totalHole }</TableTH>
                     <TableTH className="text-sm bg-yellow-100">{ totalGroove !== 0 && totalGroove }</TableTH>
@@ -319,16 +423,31 @@ const ProductListTable = ({ type, data, test_date }) => {
                         <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => paperBtn(selectedItem.id)}>증지</button>
                     </div>
                     <span className="text-xl font-bold">작업변경</span>
-                    <div className="mt-2">
-                        <button className="bg-info text-white px-4 py-2 mr-4 rounded" onClick={() => changeWorker(selectedItem.worker, selectedItem.id)}>
-                            {
-                                selectedItem.worker === '작업전' ? '작업중 변경' :
-                                    selectedItem.worker === '작업중' ? '작업완료 변경' :
-                                        selectedItem.worker === '작업완료' ? '출하완료 변경' : '출하가 완료되었습니다.'
-                            }
-                        </button>
-                        {selectedItem.worker !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBack(selectedItem.worker,selectedItem.id)} />}
+                    <div className="flex">
+                        <div className="mt-2 mr-6">
+                            <p className={"font-bold"}>가지관</p>
+                            <button className="bg-info text-white px-4 py-2 mr-4 rounded" onClick={() => changeWorker(selectedItem.worker, selectedItem.id)}>
+                                {
+                                    selectedItem.worker === '작업전' ? '작업중 변경' :
+                                        selectedItem.worker === '작업중' ? '작업완료 변경' :
+                                            selectedItem.worker === '작업완료' ? '출하완료 변경' : '출하가 완료되었습니다.'
+                                }
+                            </button>
+                            {selectedItem.worker !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBack(selectedItem.worker,selectedItem.id)} />}
+                        </div>
+                        {type === '용접/무용접' && <div className="mt-2">
+                            <p className={"font-bold"}>메인관</p>
+                            <button className="bg-info text-white px-4 py-2 mr-4 rounded" onClick={() => changeWorkerMain(selectedItem.worker_main, selectedItem.id)}>
+                                {
+                                    selectedItem.worker_main === '작업전' ? '작업중 변경' :
+                                        selectedItem.worker_main === '작업중' ? '작업완료 변경' :
+                                            selectedItem.worker_main === '작업완료' ? '출하완료 변경' : '출하가 완료되었습니다.'
+                                }
+                            </button>
+                            {selectedItem.worker_main !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBackMain(selectedItem.worker_main,selectedItem.id)} />}
+                        </div>}
                     </div>
+
                 </Modal>
             )}
             {showNewModal && (
