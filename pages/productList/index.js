@@ -3,6 +3,7 @@ import ko from 'date-fns/locale/ko';
 import "react-datepicker/dist/react-datepicker.css";
 import {useState} from "react";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 const ProductList = () => {
     const [startDate, setStartDate] = useState(null);
@@ -23,7 +24,7 @@ const ProductList = () => {
     return(
         <>
             <div className="min-h-screen flex justify-center mt-32">
-                <div className="mx-auto">
+                <div>
                     <button className="btn btn-active btn-warning w-full text-white h-16" onClick={() => setShowDatePicker(!showDatePicker)}>
                         {startDate ? startDate.toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric'}) : '검사날짜 선택'}
                     </button>
@@ -37,6 +38,9 @@ const ProductList = () => {
                         />
                     )}
                 </div>
+                <Link href='/productList/statistics'>
+                    <button className={"btn btn-active btn-primary w-full text-white h-16 ml-4 text-white"}>생산통계</button>
+                </Link>
             </div>
         </>
     )
