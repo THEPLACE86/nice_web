@@ -352,16 +352,23 @@ const ProductListTable = ({ type, data, test_date }) => {
         <div>
 
             <h1 className={`text-xl font-bold mb-2 ${type === '기타' && 'text-orange-500'}`}>{type}</h1>
+
             <table className="w-full border-collapse mx-auto">
                 <thead>
                 <tr>
-                    <TableTH width="4.5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>{type === '용접/무용접' ? '가지관': '작업현황'}</TableTH>
-                    {type === '용접/무용접' && <TableTH width="4.5rem" className={'bg-blue-50 text-sm'}>메인관</TableTH>}
+                    {type === '용접/무용접' || type === '나사' ? (
+                        <>
+                            <TableTH width="4.5rem" className={`text-sm bg-blue-50`}>가지관</TableTH>
+                            <TableTH width="4.5rem" className={'bg-blue-50 text-sm'}>메인관</TableTH>
+                        </>
+                    ) : (
+                        <TableTH width="9rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`} style={{ textAlign: 'center' }}>작업현황</TableTH>
+                    )}
                     <TableTH width="3.5rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>이니셜</TableTH>
                     <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>담당</TableTH>
                     <TableTH width="7rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>회사</TableTH>
-                    <TableTH width="11rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>현장명</TableTH>
-                    <TableTH width="17rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>구역명</TableTH>
+                    <TableTH width="12rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>현장명</TableTH>
+                    <TableTH width="18rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>구역명</TableTH>
                     <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>헤드</TableTH>
                     <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>홀</TableTH>
                     <TableTH width="4rem" className={`text-sm ${type === '기타' ? 'bg-orange-100' : 'bg-blue-50'}`}>그루브</TableTH>
@@ -371,8 +378,15 @@ const ProductListTable = ({ type, data, test_date }) => {
                 <tbody>
                 {data.map((item, index) => (
                     <tr key={index} onClick={() => handleRowClick(item)} className="cursor-pointer">
-                        <WorkerCell item={item} />
-                        {type === '용접/무용접' && <WorkerCellMain item={item} />}
+                        {type === '용접/무용접' || type === '나사' ? (
+                            <>
+                                <WorkerCell item={item} />
+                                <WorkerCellMain item={item}/>
+                            </>
+                        ) : (
+                            <WorkerCell item={item}/>
+                        )}
+
                         <TableTH className={`text-sm font-normal ${item.paper && 'bg-accent'} ${item.worker === '출하완료' && 'line-through'}`}>{item.initial}</TableTH>
                         <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.name}</TableTH>
                         <TableTH className={`text-sm font-normal ${item.drawing && 'bg-orange-200'} ${item.worker === '출하완료' && 'line-through'}`}>{item.company}</TableTH>
@@ -385,10 +399,10 @@ const ProductListTable = ({ type, data, test_date }) => {
                     </tr>
                 ))}
                 <tr>
-                    <td colSpan={type !== '용접/무용접' ? '6' : '7'} className="text-sm border-none p-1 text-center font-semibold text-end">합계</td>
-                    <TableTH className="text-sm bg-yellow-100">{ totalHead !== 0 && totalHead }</TableTH>
-                    <TableTH className="text-sm bg-yellow-100">{ totalHole !== 0 && totalHole }</TableTH>
-                    <TableTH className="text-sm bg-yellow-100">{ totalGroove !== 0 && totalGroove }</TableTH>
+                    <td colSpan={(type === '용접/무용접' || type === '나사') ? '7' : '6'} className="text-sm border-none p-1 text-center font-semibold text-end">합계</td>
+                        <TableTH className="text-sm bg-yellow-100">{ totalHead !== 0 && totalHead }</TableTH>
+                        <TableTH className="text-sm bg-yellow-100">{ totalHole !== 0 && totalHole }</TableTH>
+                        <TableTH className="text-sm bg-yellow-100">{ totalGroove !== 0 && totalGroove }</TableTH>
                     <td colSpan="3" className="text-sm border-none p-2 text-center"></td>
                 </tr>
                 </tbody>
@@ -435,7 +449,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                             </button>
                             {selectedItem.worker !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBack(selectedItem.worker,selectedItem.id)} />}
                         </div>
-                        {type === '용접/무용접' && <div className="mt-2">
+                        {(type === '용접/무용접' || type === '나사') && <div className="mt-2">
                             <p className={"font-bold"}>메인관</p>
                             <button className="bg-info text-white px-4 py-2 mr-4 rounded" onClick={() => changeWorkerMain(selectedItem.worker_main, selectedItem.id)}>
                                 {
