@@ -82,17 +82,17 @@ const Statistics = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {['hole', 'head', 'groove'].map((field) => (
+                    {['head', 'groove', 'hole'].map((field) => (
                         <tr key={field}>
                             <td className={`border border-gray-300 p-2`}>
-                                {field === 'hole' ? '홀' : field === 'head' ? '헤드' : '그루브'}
+                                {field === 'head' ? '헤드' : field === 'groove' ? '그루브' : '나사'}
                             </td>
                             {stats.map((row) => (
                                 <td key={row.month} className={`border border-gray-300 p-2`}>
                                     {row[field]}
                                 </td>
                             ))}
-                            <td className={`border border-gray-300 p-2`}>
+                            <td className={`border border-gray-300 p-2 font-bold`}>
                                 {calculateTotal(stats, field)}
                             </td>
                         </tr>

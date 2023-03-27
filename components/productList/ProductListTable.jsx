@@ -46,13 +46,12 @@ const ProductListTable = ({ type, data, test_date }) => {
         const { error } = await supabase.from('shipment').insert({
             'shipment_content': content,
             'memo': notes,
-            'all_area': area,
+            'drawing': area,
             'radio': status,
             'place': selectedItem.company + ' ' + selectedItem.place,
             'name': userData.name,
             'uid': user.id,
             'test_date': selectedItem.test_date,
-            'drawing': !!selectedItem.drawing,
             'initial': selectedItem.initial,
             'shipment_date' : dateString
         });

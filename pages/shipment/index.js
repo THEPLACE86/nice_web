@@ -56,14 +56,14 @@ export default function ShipmentList() {
             <table className="w-full table-auto border-collapse">
                 <thead>
                 <tr className="text-center bg-light-blue-200">
-                    <th className="w-10 p-2 bg-blue-50 border border-gray-300">no</th>
-                    <th className="w-16 p-2 bg-blue-50 border border-gray-300">담당자</th>
-                    <th className="w-12 p-2 bg-blue-50 border border-gray-300">도면</th>
-                    <th className="w-16 p-2 bg-blue-50 border border-gray-300">이니셜</th>
-                    <th className="w-48 p-2 bg-blue-50 border border-gray-300">업체 및 현장명</th>
-                    <th className="w-96 p-2 bg-blue-50 border border-gray-300">출하내용</th>
-                    <th className="w-32 p-2 bg-blue-50 border border-gray-300">검수일자</th>
-                    <th className="w-56 p-2 bg-blue-50 border border-gray-300">특이사항</th>
+                    <th className="w-10 p-2 bg-blue-50 border border-gray-300 text-sm">no</th>
+                    <th className="w-16 p-2 bg-blue-50 border border-gray-300 text-sm">담당자</th>
+                    <th className="w-12 p-2 bg-blue-50 border border-gray-300 text-sm">도면</th>
+                    <th className="w-16 p-2 bg-blue-50 border border-gray-300 text-sm">이니셜</th>
+                    <th className="w-48 p-2 bg-blue-50 border border-gray-300 text-sm">업체 및 현장명</th>
+                    <th className="w-96 p-2 bg-blue-50 border border-gray-300 text-sm">출하내용</th>
+                    <th className="w-32 p-2 bg-blue-50 border border-gray-300 text-sm">검수일자</th>
+                    <th className="w-52 p-2 bg-blue-50 border border-gray-300 text-sm">특이사항</th>
                 </tr>
                 </thead>
                 <tbody>
