@@ -15,11 +15,11 @@ const Create = (props) => {
         company: "",
         place: "",
         shipment: "",
-        type: "",
+        type_time: "",
         memo: "",
         initial: ""
     });
-    const [area, setArea] = useState(false)
+    const [drawing, setDrawing] = useState(false)
     const [notTest, setNotTest] = useState(false)
     const [errors, setErrors] = useState({});
 
@@ -46,8 +46,9 @@ const Create = (props) => {
             const userData = loadDataFromLocalStorage('user')
 
             await supabase.from("shipment").insert({
-                "place": formData.company + ' ' + formData.place,
-                "radio": formData.type,
+                "company": formData.company,
+                "place": formData.place,
+                "type_time": formData.type_time,
                 "memo": formData.memo,
                 "shipment_content": formData.shipment,
                 "test_date": notTest ? '' : dateString,
@@ -55,7 +56,7 @@ const Create = (props) => {
                 "name": userData.name,
                 "initial": formData.initial,
                 "uid": user.id,
-                "drawing" : area
+                "drawing" : drawing
             });
             router.back();
         } else {
@@ -138,7 +139,7 @@ const Create = (props) => {
 
                     <div className="mb-4">
                         <label htmlFor="memo" className="block mb-2">
-                            특이사항(도착시간)
+                            특이사항
                         </label>
                         <textarea
                             name="memo"
@@ -155,13 +156,13 @@ const Create = (props) => {
 
 
                     <div className="mb-4">
-                        <label htmlFor="type" className="block mb-2">
+                        <label htmlFor="type_time" className="block mb-2">
                             도착 시간
                         </label>
                         <select
-                            name="type"
-                            id="type"
-                            value={formData.type} onChange={handleChange}
+                            name="type_time"
+                            id="type_time"
+                            value={formData.type_time} onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md p-2"
                         >
                             <option value="">선택해주세요</option>
@@ -170,8 +171,8 @@ const Create = (props) => {
                             <option value="야상">야상</option>
                             <option value="택배">택배</option>
                         </select>
-                        {errors.type && (
-                            <p className="text-red-500 text-sm">{errors.type}</p>
+                        {errors.type_time && (
+                            <p className="text-red-500 text-sm">{errors.type_time}</p>
                         )}
                     </div>
                     <DatePicker
@@ -197,8 +198,8 @@ const Create = (props) => {
                             <input
                                 type="checkbox"
                                 className="checkbox ml-2"
-                                value={area}
-                                onChange={(e) => setArea(e.target.checked)}
+                                value={drawing}
+                                onChange={(e) => setDrawing(e.target.checked)}
                             />
                         </label>
                     </div>

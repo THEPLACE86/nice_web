@@ -98,7 +98,7 @@ export default function ShipmentList() {
                         <td className="p-2 border border-gray-300">{shipment.place}</td>
                         <td className="p-2 border border-gray-300">{shipment.shipment_content}</td>
                         <td className="p-2 border border-gray-300">{shipment.test_date}</td>
-                        <td className="p-2 border border-gray-300">{shipment.memo} (<span className="font-bold text-red-600">{shipment.radio}</span>)</td>
+                        <td className="p-2 border border-gray-300">{shipment.memo} (<span className="font-bold text-red-600">{shipment.type_time}</span>)</td>
                     </tr>
                 ))}
                 </tbody>
