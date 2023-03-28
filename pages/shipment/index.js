@@ -1,21 +1,34 @@
 import { useEffect, useState } from 'react';
-import {supabase} from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/router";
+import ko from "date-fns/locale/ko";
+import Modal from "../../components/util/model";
 
 export default function ShipmentList() {
     const [shipments, setShipments] = useState([]);
     const [selectDate, setSelectDate] = useState(new Date());
     const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
     const dateString = dateFormatter.format(selectDate);
-    const router = useRouter()
+    const router = useRouter();
+
+    const [selectedShipment, setSelectedShipment] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleItemClick = (shipment) => {
+        setSelectedShipment(shipment);
+        setIsModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
 
     const handleDateChange = (date) => {
         setSelectDate(date);
     };
 
     useEffect(() => {
-
         fetchShipments();
     }, [dateString]);
 
@@ -30,7 +43,16 @@ export default function ShipmentList() {
             pathname: '/shipment/create',
             query: { date: dateString },
         });
-    }
+    };
+
+    const goToUpdate = () => {
+        if (!selectedShipment) return;
+
+        router.push({
+            pathname: '/shipment/update',
+            query: { date: dateString, id: selectedShipment.id },
+        });
+    };
 
     return (
         <div className="mx-auto px-4">
@@ -43,10 +65,10 @@ export default function ShipmentList() {
                 <div className="flex items-center">
                     <div className="flex items-center space-x-4">
                         <DatePicker
-                            selected={selectDate}
+                            selected={selectDate} locale={ko}
                             onChange={handleDateChange}
                             dateFormat="yyyy년 M월 d일"
-                            className="print:hidden cursor-pointer bg-white border border-gray-300 rounded p-2 text-gray-600 text-center w-48"
+                            className="print:hidden cursor-pointer bg-white border border-gray-300 rounded p-2 text-gray-600 text-center w-52 h-12"
                         />
                         <button onClick={goToCreate} className="print:hidden btn btn-primary rounded text-white w-32">등록</button>
                     </div>
@@ -68,7 +90,7 @@ export default function ShipmentList() {
                 </thead>
                 <tbody>
                 {shipments.map((shipment, index) => (
-                    <tr key={index} className="text-center">
+                    <tr key={index} className="text-center cursor-pointer" onClick={() => handleItemClick(shipment)}>
                         <td className="p-2 border border-gray-300">{index + 1}</td>
                         <td className="p-2 border border-gray-300">{shipment.name}</td>
                         <td className="p-2 border border-gray-300">{shipment.drawing ? 'O' : 'X'}</td>
@@ -81,6 +103,13 @@ export default function ShipmentList() {
                 ))}
                 </tbody>
             </table>
+            {isModalOpen && (
+                <Modal onClose={handleModalClose}>
+                    <h2 className="text-xl font-bold mb-4">{selectedShipment.place}</h2>
+                    <button onClick={goToUpdate} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">수정</button>
+                    <button onClick={goToUpdate} className="bg-red-500 text-white px-4 py-2 rounded">삭제</button>
+                </Modal>
+            )}
         </div>
     );
 }

@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 const Statistics = () => {
     const [stats, setStats] = useState([]);
     const [selectedYear, setSelectedYear] = useState(new Date());
-    const pageTitle = `${selectedYear.getFullYear()}년 작업 통계`;
+    const pageTitle = `${selectedYear.getFullYear()}년 생산 통계`;
 
     async function getMonthlyStats(year) {
         const { data, error } = await supabase
