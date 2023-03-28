@@ -52,7 +52,13 @@ export default function ShipmentList() {
             pathname: '/shipment/update',
             query: { date: dateString, id: selectedShipment.id },
         });
-    };
+    }
+
+    const deleteShipment = async (id) => {
+        await supabase.from('shipment').delete().eq('id', id)
+        setIsModalOpen(false)
+        location.reload()
+    }
 
     return (
         <div className="mx-auto px-4">
@@ -107,7 +113,7 @@ export default function ShipmentList() {
                 <Modal onClose={handleModalClose}>
                     <h2 className="text-xl font-bold mb-4">{selectedShipment.place}</h2>
                     <button onClick={goToUpdate} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">수정</button>
-                    <button onClick={goToUpdate} className="bg-red-500 text-white px-4 py-2 rounded">삭제</button>
+                    <button onClick={() => deleteShipment(selectedShipment.id)} className="bg-red-500 text-white px-4 py-2 rounded">삭제</button>
                 </Modal>
             )}
         </div>

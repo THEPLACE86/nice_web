@@ -8,7 +8,12 @@ import DatePicker from "react-datepicker";
 const Create = (props) => {
     const { date } = props;
     const router = useRouter();
-    const [selectDate, setSelectDate] = useState(new Date());
+    const findTuesday = (date) => {
+        const dayOfWeek = date.getDay();
+        const diff = (dayOfWeek < 2 ? 1 : 9) - dayOfWeek;
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate() + diff);
+    };
+    const [selectDate, setSelectDate] = useState(findTuesday(new Date()));
     const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
     const dateString = dateFormatter.format(selectDate);
     const [formData, setFormData] = useState({
@@ -25,6 +30,7 @@ const Create = (props) => {
 
     const handleDateChange = (date) => {
         console.log(date.value)
+        setNotTest(false)
         setSelectDate(date);
     };
 
@@ -188,6 +194,7 @@ const Create = (props) => {
                                 type="checkbox"
                                 className="checkbox ml-2"
                                 value={notTest}
+                                checked={notTest}
                                 onChange={(e) => setNotTest(e.target.checked)}
                             />
                         </label>

@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
 
 const Update = (props) => {
-    const { date , id } = props;
+    const { id } = props;
     const router = useRouter();
     const [drawing, setDrawing] = useState(false)
     const [notTest, setNotTest] = useState(false)
@@ -57,6 +57,7 @@ const Update = (props) => {
                 initial: data.initial,
             });
             setDrawing(data.drawing)
+
             if(data.test_date === ""){
                 setNotTest(true)
             }else{
