@@ -34,8 +34,12 @@ export default function ShipmentList() {
 
     async function fetchShipments() {
         const { data, error } = await supabase.from('shipment').select().eq('shipment_date', dateString);
-        if (error) console.error('Error fetching shipments:', error);
-        else setShipments(data);
+        if (error) {
+            console.error('Error fetching shipments:', error)
+        }else {
+
+            setShipments(data)
+        }
     }
 
     const goToCreate = () => {
@@ -53,11 +57,18 @@ export default function ShipmentList() {
             query: { date: dateString, id: selectedShipment.id },
         });
     }
-
     const deleteShipment = async (id) => {
-        await supabase.from('shipment').delete().eq('id', id)
-        setIsModalOpen(false)
-        location.reload()
+        const confirmed = window.confirm('삭제 하시겠습니까?')
+
+        if(confirmed){
+            try{
+                await supabase.from('shipment').delete().eq('id', id)
+                setIsModalOpen(false)
+                location.reload()
+            }catch (e) {
+                console.log(e.message)
+            }
+        }
     }
 
     return (
