@@ -112,7 +112,7 @@ export default function ShipmentList() {
                         <td className="p-2 border border-gray-300">{shipment.name}</td>
                         <td className="p-2 border border-gray-300">{shipment.drawing ? 'O' : 'X'}</td>
                         <td className="p-2 border border-gray-300">{shipment.initial}</td>
-                        <td className="p-2 border border-gray-300">{shipment.place}</td>
+                        <td className="p-2 border border-gray-300">{shipment.company} {shipment.place}</td>
                         <td className="p-2 border border-gray-300">{shipment.shipment_content}</td>
                         <td className="p-2 border border-gray-300">{shipment.test_date}</td>
                         <td className="p-2 border border-gray-300">{shipment.memo} (<span className="font-bold text-red-600">{shipment.type_time}</span>)</td>
