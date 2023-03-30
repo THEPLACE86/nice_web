@@ -11,22 +11,35 @@ const ProductList = () => {
 
     const router = useRouter();
 
+    function getThisWeeksTuesday() {
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0 (일요일) ~ 6 (토요일)
+        const daysToTuesday = (2 - dayOfWeek + 7) % 7; // 화요일까지 남은 날짜 계산
+
+        now.setDate(now.getDate() + daysToTuesday);
+        return now.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    }
+
     const handleDateChange = (date) => {
-        setStartDate(date);
-        setShowDatePicker(false);
-        const formattedDate = new Date(date).toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric',});
+        //setStartDate(date);
+        //setShowDatePicker(false);
+        //const formattedDate = new Date(date).toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric',});
         router.push({
             pathname: '/productList/list',
-            query: { date: formattedDate },
+            query: { date: getThisWeeksTuesday() },
         });
-    };
+    }
 
     return(
         <>
             <div className="min-h-screen flex justify-center mt-32">
                 <div>
-                    <button className="btn btn-active btn-warning w-full text-white h-16" onClick={() => setShowDatePicker(!showDatePicker)}>
-                        {startDate ? startDate.toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric'}) : '검사날짜 선택'}
+                    <button className="btn btn-active btn-warning w-full text-white h-16" onClick={() => handleDateChange()}> 생산계획표
+                        {/*{startDate ? startDate.toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric'}) : '검사날짜 선택'}*/}
                     </button>
                     {showDatePicker && (
                         <DatePicker

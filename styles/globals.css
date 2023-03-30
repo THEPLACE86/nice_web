@@ -29,3 +29,12 @@ body {
         display: none !important;
     }
 }
+
+.datePickerWrapper {
+    position: relative;
+}
+
+.datePicker {
+    position: absolute;
+    z-index: 1000;
+}

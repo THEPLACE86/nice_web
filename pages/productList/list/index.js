@@ -1,14 +1,16 @@
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {supabase} from "../../../utils/supabaseClient";
 import ProductListTable from "../../../components/productList/ProductListTable";
-import { format, addDays, subDays } from 'date-fns';
+import DatePicker from "react-datepicker";
+import ko from "date-fns/locale/ko";
 
 const List = (props) => {
     const { date } = props;
     const router = useRouter()
     const [data, setData] = useState([]);
     const workTypes = ["용접/무용접", "전실/입상", "나사", "기타"];
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -115,12 +117,34 @@ const List = (props) => {
     const totalHole = data.reduce((sum, item) => sum + item.hole, 0);
     const totalGroove = data.reduce((sum, item) => sum + item.groove, 0);
 
+    const handleDateChange = (date) => {
+        setShowDatePicker(false);
+        const formattedDate = new Date(date).toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric',});
+        router.push({
+            pathname: '/productList/list',
+            query: { date: formattedDate },
+        });
+    }
+
     return (
         <div>
             <div className="flex mt-10 mb-10 items-center">
                 <div className="flex items-center">
                     <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => moveDate(true)}>지난주</button>
                     <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => moveDate(false)}>다음주</button>
+                    <button className="print:hidden btn btn-active rounded text-white mr-4" onClick={() => setShowDatePicker(!showDatePicker)}>달력</button>
+                    <div className="datePickerWrapper">
+                        {showDatePicker && (
+                            <div className="datePicker">
+                                <DatePicker
+                                    onChange={handleDateChange}
+                                    locale={ko} dateFormat="yyyy년 MM월 dd일"
+                                    inline
+                                    filterDate={(date) => date.getDay() === 2}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className="flex-grow text-center">
                     <span className="font-bold text-3xl">

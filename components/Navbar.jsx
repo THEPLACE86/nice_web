@@ -15,6 +15,12 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="flex-none mr-6">
+                <Link href="/allSearch">
+                    <span
+                        className={`${router.pathname.includes ("/allSearch") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>통합검색</span >
+                </Link>
+            </div>
+            <div className="flex-none mr-6">
                 <Link href="/productList">
                     <span
                         className={`${router.pathname.includes ("/productList") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>생산계획표</span >
