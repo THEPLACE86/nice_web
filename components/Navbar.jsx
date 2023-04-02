@@ -54,7 +54,7 @@ const Navbar = () => {
             <div className="flex-none mr-20">
                 <Link href={`/quality?date=${getThisWeeksTuesday()}`}>
                     <span
-                        className={`${router.pathname.includes ("/quality") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>품질관리부</span>
+                        className={`${router.pathname.includes ("/quality") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>검수리스트</span>
                 </Link>
             </div>
             <div className="dropdown dropdown-end">
