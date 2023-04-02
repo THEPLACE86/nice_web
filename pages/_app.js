@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
         {!session ? (
             <Auth />
         ) : (
-            <div className="w-[1400px] pr-6 pl-6 pb-6 mx-auto relative">
+            <div className="w-[1600px] pr-6 pl-6 pb-6 mx-auto">
               <Head>
                 <script>
                   <script src="https://kit.fontawesome.com/85da0a7805.js" crossOrigin="anonymous"></script>

@@ -25,52 +25,40 @@ const List = (props) => {
     }, [date]);
 
     useEffect(() => {
-        const ch = supabase.channel('any')
+        const ch = supabase.channel('product_list')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'product_list' }, payload => {
                 console.log('Change received!', payload)
-
-                if (payload.eventType === "UPDATE") {
-                    if (payload.new.test_date !== date) {
-                        console.log(payload.old.test_date)
-                        console.log(payload.new.test_date)
-
+                switch (payload.eventType) {
+                    case "UPDATE":
                         setData((prevChannels) => {
                             const updatedChannels = prevChannels.map((channel) =>
                                 channel.id === payload.new.id ? payload.new : channel
                             );
                             if (payload.new.test_date === date) {
-                                // 새로운 test_date가 현재 페이지의 날짜와 같으면 목록에 추가
-                                return [...updatedChannels, payload.new];
+                                return updatedChannels.some(channel => channel.id === payload.new.id) ? updatedChannels : [...updatedChannels, payload.new];
                             } else {
-                                // 현재 목록에서 test_date가 변경된 항목을 제거
-                                return updatedChannels.filter(channel => channel.test_date === date);
+                                return updatedChannels.filter(channel => channel.test_date === date && channel.id !== payload.new.id);
                             }
                         });
-                    } else {
-                        console.log('실행됨')
-                        setData((prevChannels) => {
-                            return prevChannels.map((channel) =>
-                                channel.id === payload.new.id ? payload.new : channel
-                            );
-                        });
-                    }
-                } else {
-                    switch (payload.eventType) {
-                        case "INSERT":
-                            if (payload.new.test_date === date) {
-                                setData((prevChannels) => [...prevChannels, payload.new]);
-                            }
-                            break;
-                        case "DELETE":
-                            setData((prevChannels) =>
-                                prevChannels.filter((channel) => channel.id !== payload.old.id)
-                            );
-                            break;
-                        default:
-                            break;
-                    }
+
+                        break
+                    case "INSERT":
+                        if (payload.new.test_date === date) {
+                            setData((prevChannels) => [...prevChannels, payload.new]);
+                        }
+                        break;
+                    case "DELETE":
+                        setData((prevChannels) =>
+                            prevChannels.filter((channel) => channel.id !== payload.old.id)
+                        );
+                        break;
+                    default:
+                        break;
                 }
             }).subscribe()
+        return () => {
+            supabase.removeChannel(ch)
+        };
     }, [])
 
     const goToCreate = () => {
@@ -116,7 +104,6 @@ const List = (props) => {
     const totalHead = data.reduce((sum, item) => sum + item.head, 0);
     const totalHole = data.reduce((sum, item) => sum + item.hole, 0);
     const totalGroove = data.reduce((sum, item) => sum + item.groove, 0);
-
     const handleDateChange = (date) => {
         setShowDatePicker(false);
         const formattedDate = new Date(date).toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric',});

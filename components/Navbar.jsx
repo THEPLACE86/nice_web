@@ -6,6 +6,19 @@ const Navbar = () => {
 
     const router = useRouter()
 
+    function getThisWeeksTuesday() {
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0 (일요일) ~ 6 (토요일)
+        const daysToTuesday = (2 - dayOfWeek + 7) % 7; // 화요일까지 남은 날짜 계산
+
+        now.setDate(now.getDate() + daysToTuesday);
+        return now.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    }
+
     return(
         <div className={`print:hidden navbar bg-neutral text-neutral-content rounded-xl`}>
             <div className="flex-1">
@@ -39,7 +52,7 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="flex-none mr-20">
-                <Link href="/quality">
+                <Link href={`/quality?date=${getThisWeeksTuesday()}`}>
                     <span
                         className={`${router.pathname.includes ("/quality") ? 'btn btn-warning p-4 rounded text-white' : 'p-4'}`}>품질관리부</span>
                 </Link>
