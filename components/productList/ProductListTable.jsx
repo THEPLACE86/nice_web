@@ -460,6 +460,9 @@ const ProductListTable = ({ type, data, test_date }) => {
                             {selectedItem.worker_main !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBackMain(selectedItem.worker_main,selectedItem.id)} />}
                         </div>}
                     </div>
+                    <div className={"mt-2"}>
+                        <button className={"btn btn-primary"}>작업취소</button>
+                    </div>
 
                 </Modal>
             )}

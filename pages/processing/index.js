@@ -4,35 +4,28 @@ import formatDate from "../../utils/formatDate";
 import MonthPicker from "../../components/MonthPicker";
 
 const Processing = () => {
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
     const [month, setMonth] = useState(new Date().getMonth() + 1);
-    const [year, setYear] = useState(new Date().getFullYear())
-
-    async function getMonthlyData(year, month) {
-        const startDate = formatDate(year, month, 1);
-        const endDate = formatDate(year, month % 12 + 1, 1);
-
-        const { data, error } = await supabase
-            .from('product_list').select()
-            .filter('test_date', 'gte', startDate)
-            .filter('test_date', 'lt', endDate)
-            .filter('drawing', 'eq', true)
-            .order('test_date', { ascending: true })
-            .order('company', { ascending: true })
-
-        if (error) {
-            console.error('Error fetching data:', error)
-            return []
-        }
-        return data
-    }
+    const [year, setYear] = useState(new Date().getFullYear());
     useEffect(() => {
         async function fetchData() {
-            const monthlyData = await getMonthlyData(year, month)
-            setData(monthlyData)
+            const monthlyData = await getMonthlyData(year, month);
+            setData(monthlyData);
         }
-        fetchData()
-    }, [month, year])
+        fetchData();
+    }, [month, year]);
+
+    async function getMonthlyData(year, month) {
+        const yearMonth = `${year}년 ${String(month).padStart(2, '0')}월`;
+
+        const { data, error } = await supabase.rpc('get_monthly_data', { year_month: yearMonth });
+
+        if (error) {
+            console.error('Error fetching data:', error);
+            return [];
+        }
+        return data;
+    }
 
     const handleMonthSelect = (year, month) => {
         setYear(year);

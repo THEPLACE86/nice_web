@@ -34,7 +34,7 @@ const Quality = (props) => {
             }
         }
         getDate().then(r => console.log(`111 ${r}`))
-    },[testRound])
+    },[testRound, date])
 
     useEffect(() => {
         const getTestDateListInfo = async () => {
@@ -168,6 +168,13 @@ const Quality = (props) => {
         }
     }
 
+    const goToCreate = () => {
+        router.push({
+            pathname: '/quality/create',
+            query: { testDate: date, testRound: testRound },
+        });
+    };
+
     const renderInputFields = (round) => {
         return (
             <>
@@ -270,7 +277,7 @@ const Quality = (props) => {
                         4차 신청
                     </a>
                 </div>
-                <button className={"btn btn-outline pr-8 pl-8"}>등록</button>
+                <button className={"btn btn-outline pr-8 pl-8"} onClick={goToCreate}>등록</button>
             </div>
             <div className={"flex mt-6"}>
                 <div className={"grid grid-cols-2 gap-4"} style={{ height: "130px" }}>
