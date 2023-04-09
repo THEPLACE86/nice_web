@@ -4,6 +4,7 @@ import { addWeeks, format, setDay, subWeeks } from 'date-fns';
 import ko from "date-fns/locale/ko";
 import { useRouter } from "next/router";
 import {supabase} from "../../utils/supabaseClient";
+import formatDate from "../../utils/formatDate";
 
 const Quality = (props) => {
     const router = useRouter();
@@ -84,7 +85,7 @@ const Quality = (props) => {
 
     const handleDateChange = (date) => {
         setShowDatePicker(false);
-        const formattedDate = new Date(date).toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric',});
+        const formattedDate = formatDate(date)
         router.push({
             pathname: '/quality',
             query: { date: formattedDate },
@@ -95,8 +96,7 @@ const Quality = (props) => {
             const newDate = new Date(date.replace(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/, '$1-$2-$3'));
             newDate.setDate(newDate.getDate() - 7);
 
-            const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-            const dateString = dateFormatter.format(newDate);
+            const dateString = formatDate(newDate);
 
             router.push({
                 pathname: '/quality',
@@ -106,8 +106,7 @@ const Quality = (props) => {
             const newDate = new Date(date.replace(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/, '$1-$2-$3'));
             newDate.setDate(newDate.getDate() + 7);
 
-            const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-            const dateString = dateFormatter.format(newDate);
+            const dateString = formatDate(newDate);
 
             router.push({
                 pathname: '/quality',

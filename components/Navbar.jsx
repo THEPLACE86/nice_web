@@ -1,6 +1,7 @@
 import {supabase} from "../utils/supabaseClient";
 import Link from "next/link";
 import {useRouter} from "next/router";
+import formatDate from "../utils/formatDate";
 
 const Navbar = () => {
 
@@ -12,11 +13,8 @@ const Navbar = () => {
         const daysToTuesday = (2 - dayOfWeek + 7) % 7; // 화요일까지 남은 날짜 계산
 
         now.setDate(now.getDate() + daysToTuesday);
-        return now.toLocaleDateString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
+
+        return formatDate(now)
     }
 
     return(
