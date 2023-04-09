@@ -75,7 +75,7 @@ const Statistics = () => {
                         <th className="border border-gray-300 bg-orange-100 p-2">항목</th>
                         {stats.map((row) => (
                             <th key={row.month} className="border border-gray-300 bg-orange-100 p-2">
-                                {row.month.slice(5)}
+                                {row.month.slice(5)}월
                             </th>
                         ))}
                         <th className="border border-gray-300 bg-orange-100 p-2">최종 합계</th>

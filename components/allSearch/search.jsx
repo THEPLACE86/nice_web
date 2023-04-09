@@ -49,7 +49,7 @@ function Search() {
             <input
                 className="w-850px border-2 border-gray-300 p-2 rounded"
                 type="text"
-                placeholder="검색어를 입력하세요"
+                placeholder="검색어 입력후 엔터"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 onKeyDown={handleKeyPress}

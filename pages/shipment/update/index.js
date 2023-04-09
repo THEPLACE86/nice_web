@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { parse } from "date-fns";
 import DatePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
+import formatDate from "../../../utils/formatDate";
 
 const Update = (props) => {
     const { id } = props;
@@ -61,7 +62,7 @@ const Update = (props) => {
             if(data.test_date === ""){
                 setNotTest(true)
             }else{
-                const parsedDate = parse(data.test_date, "yyyy년 M월 d일", new Date());
+                const parsedDate = parse(data.test_date, "yyyy년 M월 dd일", new Date());
                 setStartDate(parsedDate);
                 setNotTest(false)
             }
@@ -85,7 +86,7 @@ const Update = (props) => {
             }
         });
         if (Object.keys(newErrors).length === 0) {
-            const formattedDate = startDate.toLocaleDateString("ko-KR", {year: 'numeric',month: 'long',day: 'numeric'});
+            const formattedDate = formatDate(startDate)
 
             await supabase
                 .from("shipment")

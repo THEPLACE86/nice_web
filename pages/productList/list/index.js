@@ -4,6 +4,7 @@ import {supabase} from "../../../utils/supabaseClient";
 import ProductListTable from "../../../components/productList/ProductListTable";
 import DatePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
+import formatDate from "../../../utils/formatDate";
 
 const List = (props) => {
     const { date } = props;
@@ -80,8 +81,7 @@ const List = (props) => {
             const newDate = new Date(date.replace(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/, '$1-$2-$3'));
             newDate.setDate(newDate.getDate() - 7);
 
-            const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-            const dateString = dateFormatter.format(newDate);
+            const dateString = formatDate(newDate);
 
             router.push({
                 pathname: '/productList/list',
@@ -91,8 +91,7 @@ const List = (props) => {
             const newDate = new Date(date.replace(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/, '$1-$2-$3'));
             newDate.setDate(newDate.getDate() + 7);
 
-            const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-            const dateString = dateFormatter.format(newDate);
+            const dateString = formatDate(newDate);
 
             router.push({
                 pathname: '/productList/list',
@@ -106,7 +105,8 @@ const List = (props) => {
     const totalGroove = data.reduce((sum, item) => sum + item.groove, 0);
     const handleDateChange = (date) => {
         setShowDatePicker(false);
-        const formattedDate = new Date(date).toLocaleDateString('ko-KR', {year: 'numeric',month: 'long',day: 'numeric',});
+        const formattedDate = formatDate(date)
+
         router.push({
             pathname: '/productList/list',
             query: { date: formattedDate },
@@ -125,7 +125,7 @@ const List = (props) => {
                             <div className="datePicker">
                                 <DatePicker
                                     onChange={handleDateChange}
-                                    locale={ko} dateFormat="yyyy년 MM월 dd일"
+                                    locale={ko} dateFormat="yyyy년 M월 dd일"
                                     inline
                                     filterDate={(date) => date.getDay() === 2}
                                 />

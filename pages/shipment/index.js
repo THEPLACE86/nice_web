@@ -4,12 +4,12 @@ import DatePicker from 'react-datepicker';
 import { useRouter } from "next/router";
 import ko from "date-fns/locale/ko";
 import Modal from "../../components/util/model";
+import formatDate from "../../utils/formatDate";
 
 export default function ShipmentList() {
     const [shipments, setShipments] = useState([]);
     const [selectDate, setSelectDate] = useState(new Date());
-    const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-    const dateString = dateFormatter.format(selectDate);
+    const dateString = formatDate(selectDate);
     const router = useRouter();
 
     const [selectedShipment, setSelectedShipment] = useState(null);
@@ -37,7 +37,6 @@ export default function ShipmentList() {
         if (error) {
             console.error('Error fetching shipments:', error)
         }else {
-
             setShipments(data)
         }
     }

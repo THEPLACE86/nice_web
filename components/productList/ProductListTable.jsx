@@ -10,6 +10,7 @@ import {useRouter} from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
 import loadDataFromLocalStorage from "../../utils/localStorage";
+import formatDate from "../../utils/formatDate";
 
 const TableTH = styled.th`
   ${tw`border border-gray-400 p-1 text-center`}
@@ -40,15 +41,15 @@ const ProductListTable = ({ type, data, test_date }) => {
         const { data: { user } } = await supabase.auth.getUser()
         const userData = loadDataFromLocalStorage('user')
 
-        const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-        const dateString = dateFormatter.format(date);
+        const dateString = formatDate(date)
 
         const { error } = await supabase.from('shipment').insert({
             'shipment_content': content,
             'memo': notes,
             'drawing': area,
-            'radio': status,
-            'place': selectedItem.company + ' ' + selectedItem.place,
+            'type_time': status,
+            'company': selectedItem.company,
+            'place': selectedItem.place,
             'name': userData.name,
             'uid': user.id,
             'test_date': selectedItem.test_date,
@@ -92,9 +93,19 @@ const ProductListTable = ({ type, data, test_date }) => {
         return <TableTH className={className}>{item.worker_main}</TableTH>;
     }
     const drawingBtn = async (id, drawing) => {
-        await supabase.from('product_list').update({
-            'drawing' : !drawing
-        }).eq('id', id)
+        if(drawing){
+            await supabase.from('product_list').update({
+                'drawing' : false,
+                'drawing_date': null
+            }).eq('id', id)
+        }else{
+            const date = new Date()
+            const stringDate = formatDate(date)
+            await supabase.from('product_list').update({
+                'drawing' : true,
+                'drawing_date': stringDate
+            }).eq('id', id)
+        }
         setShowModal(false)
     }
     const paperBtn = async (id) => {
@@ -115,7 +126,7 @@ const ProductListTable = ({ type, data, test_date }) => {
     };
     const updateTestDate = async () => {
         if (selectedDate) {
-            const formattedDate = format(selectedDate, 'yyyy년 M월 d일'); // 날짜를 원하는 포맷으로 변환
+            const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
             try {
                 const { error } = await supabase.from('product_list')
                     .update({ test_date: formattedDate })
@@ -460,9 +471,9 @@ const ProductListTable = ({ type, data, test_date }) => {
                             {selectedItem.worker_main !== '작업전' && <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faRotate} size="2xl" onClick={() => workerBackMain(selectedItem.worker_main,selectedItem.id)} />}
                         </div>}
                     </div>
-                    <div className={"mt-2"}>
-                        <button className={"btn btn-primary"}>작업취소</button>
-                    </div>
+                    {/*<div className={"mt-2"}>*/}
+                    {/*    <button className={"btn btn-primary"}>작업취소</button>*/}
+                    {/*</div>*/}
 
                 </Modal>
             )}
