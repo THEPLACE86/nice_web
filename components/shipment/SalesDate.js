@@ -45,7 +45,7 @@ const SalesDate = ({ item, onDataChange }) => {
                         onClick={() => setIsModalOpen(false)}
                     ></div>
                     <div className="relative p-8 bg-white rounded shadow-xl">
-                        <h2 className="text-xl font-bold mb-4 text-black">매출날짜 선택</h2>
+                        <h2 className="text-xl font-bold mb-4 text-black">{item.company} {item.place} {item.area}</h2>
                         <input
                             type="date"
                             onChange={(e) => setSelectedDate(e.target.value)}
@@ -59,8 +59,14 @@ const SalesDate = ({ item, onDataChange }) => {
                                 저장
                             </button>
                             <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="bg-gray-300 text-black px-4 py-2 mr-2 rounded"
+                            >
+                                닫기
+                            </button>
+                            <button
                                 onClick={handleDateCancel}
-                                className="bg-gray-300 text-black px-4 py-2 rounded"
+                                className="bg-orange-300 text-black px-4 py-2 rounded"
                             >
                                 매출취소
                             </button>
