@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
-import { addWeeks, format, setDay, subWeeks } from 'date-fns';
 import ko from "date-fns/locale/ko";
 import { useRouter } from "next/router";
 import {supabase} from "../../utils/supabaseClient";
 import formatDate from "../../utils/formatDate";
+import SalesDate from "../../components/shipment/SalesDate";
+import TestListModal from "../../components/quality/TestListModal";
 
 const Quality = (props) => {
     const router = useRouter();
@@ -256,7 +257,7 @@ const Quality = (props) => {
                     </span>
                 </div>
                 <div>
-                    <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => moveDate(true)}>리스트출력</button>
+                    <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => router.push({pathname: '/quality/testListPrint', query: { date }})}>리스트출력</button>
                     <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => moveDate(false)}>가지관출력</button>
                     <button className="print:hidden btn btn-primary rounded text-white mr-4" onClick={() => setShowDatePicker(!showDatePicker)}>메인관출력</button>
                 </div>
@@ -327,6 +328,7 @@ const Quality = (props) => {
                                 <th className="border border-gray-300 bg-blue-200 text-center">125A</th>
                                 <th className="border border-gray-300 bg-blue-200 text-center">150A</th>
                                 <th className="border border-gray-300 bg-gray-200 w-24 text-center">합계</th>
+                                <th className="border border-gray-300 bg-gray-200 w-10 text-center"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -459,10 +461,13 @@ const Quality = (props) => {
                                             {item.m150 !== 0 && <p>{item.m150}</p>}
                                         </td>
                                         <td className="border border-gray-300 pt-2 pb-2">
-                                            <div className="flex flex-col items-center">
+                                            <div className="flex flex-col items-center cursor-pointer">
                                                 <p>확관 : {item.totalH}</p>
                                                 <p>총합 : {item.totalH + item.a25}</p>
                                             </div>
+                                        </td>
+                                        <td className="border border-gray-300 text-center">
+                                            <TestListModal item={item} />
                                         </td>
                                     </tr>
                                 );
@@ -470,7 +475,7 @@ const Quality = (props) => {
                             </tbody>
                         </table>
                     </div>
-        </div>
+            </div>
             )}
         </div>
     )
