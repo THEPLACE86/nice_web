@@ -122,6 +122,7 @@ const Processing = () => {
                 <thead>
                 <tr className="bg-blue-200 font-bold">
                     <th className="border px-4 text-sm py-2">배포날짜</th>
+                    <th className="border px-4 text-sm py-2">담당</th>
                     <th className="border px-4 text-sm py-2">회사</th>
                     <th className="border px-4 text-sm py-2">현장</th>
                     <th className="border px-4 text-sm py-2">구역</th>
@@ -137,6 +138,7 @@ const Processing = () => {
                 {data.map((item, index) => (
                     <tr key={index} className="border">
                         <td className="border text-center p-1 text-sm">{item.drawing_date}</td>
+                        <td className="border text-center p-1 text-sm">{item.name}</td>
                         <td className="border text-center p-1 text-sm">{item.company}</td>
                         <td className="border text-center p-1 text-sm">{item.place}</td>
                         <td className="border text-center p-1 text-sm">{item.area}</td>
