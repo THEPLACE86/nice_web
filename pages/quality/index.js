@@ -367,7 +367,7 @@ const Quality = (props) => {
                                                         onChange={(e) => {
                                                             setLotNumberStart({ ...lotNumberStart, [item.id]: e.target.value });
                                                         }}
-                                                        onKeyDown={(e) => onSaveB(e, item.id, item.totalH, false, e.target.value)}
+                                                        onKeyDown={(e) => onSaveB(e, item.id, item.a25, false, e.target.value)}
                                                     />
                                                     <p>~</p>
                                                     <input
@@ -377,7 +377,7 @@ const Quality = (props) => {
                                                         onChange={(e) => {
                                                             setLotNumberEnd({ ...lotNumberEnd, [item.id]: e.target.value });
                                                         }}
-                                                        onKeyDown={(e) => onSaveB(e, item.id, item.totalH, false, e.target.value)}
+                                                        onKeyDown={(e) => onSaveB(e, item.id, item.a25, false, e.target.value)}
                                                     />
                                                 </div>
                                             )}
