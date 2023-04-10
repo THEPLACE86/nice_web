@@ -36,7 +36,7 @@ const SalesDate = ({ item, onDataChange }) => {
               onClick={() => setIsModalOpen(true)}
               className={`cursor-pointer ${!item.sales_date ? 'text-gray-400' : 'text-orange-600 font-bold'}`}
           >
-              {item.sales_date || '날짜선택'}
+              {item.sales_date && item.sales_date.substring(6) || '날짜선택'}
             </span>
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50">
