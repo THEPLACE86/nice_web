@@ -258,7 +258,7 @@ const Quality = (props) => {
                 </div>
                 <div>
                     <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => router.push({pathname: '/quality/testListPrint', query: { date }})}>리스트출력</button>
-                    <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => moveDate(false)}>가지관출력</button>
+                    <button className="print:hidden btn btn-primary rounded text-white w-32 mr-4" onClick={() => router.push({pathname: '/quality/testListCountPrint', query: { date }})}>가지관출력</button>
                     <button className="print:hidden btn btn-primary rounded text-white mr-4" onClick={() => setShowDatePicker(!showDatePicker)}>메인관출력</button>
                 </div>
             </div>
