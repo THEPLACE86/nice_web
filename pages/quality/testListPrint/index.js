@@ -56,6 +56,7 @@ function TestListPrint(props) {
         <>
             <div className="mx-auto px-4">
                 <div className="flex justify-end">
+                    <span className={"font-bold text-xl pt-2 pb-2 mr-20 text-orange-500"}>{date} 검수 리스트</span>
                     <span className={"font-bold text-xl pt-2 pb-2"}>비확관 합계 : {totalB}</span>
                     <span className="ml-6 font-bold text-xl pt-2 pb-2">확관합계 : {totalH}</span>
                 </div>

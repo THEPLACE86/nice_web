@@ -26,7 +26,7 @@ function TestListCountPrint(props) {
                             <thead>
                             <tr>
                                 <th
-                                    className="border border-black py-2 font-bold text-3xl mb-2"
+                                    className="border border-black p-6 font-bold text-4xl"
                                     colSpan="12"
                                     style={{ fontWeight: "bold", color: "#CB0000" }}
                                 >
@@ -57,16 +57,16 @@ function TestListCountPrint(props) {
                                 <td className="border border-black py-2">65A</td>
                             </tr>
                             <tr>
-                                <td className="border border-black font-bold text-2xl py-2 h-20">{item.a25_01 === 0 ? "" : item.a25_01}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a32_01 === 0 ? "" : item.a32_01}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a40_01 === 0 ? "" : item.a40_01}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a50_01 === 0 ? "" : item.a50_01}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a65_01 === 0 ? "" : item.a65_01}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a25_02 === 0 ? "" : item.a25_02}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a32_02 === 0 ? "" : item.a32_02}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a40_02 === 0 ? "" : item.a40_02}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a50_02 === 0 ? "" : item.a50_02}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a65_02 === 0 ? "" : item.a65_02}</td>
+                                <td className="border border-black font-bold text-3xl py-2 h-20">{item.a25_01 === 0 ? "" : item.a25_01}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a32_01 === 0 ? "" : item.a32_01}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a40_01 === 0 ? "" : item.a40_01}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a50_01 === 0 ? "" : item.a50_01}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a65_01 === 0 ? "" : item.a65_01}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a25_02 === 0 ? "" : item.a25_02}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a32_02 === 0 ? "" : item.a32_02}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a40_02 === 0 ? "" : item.a40_02}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a50_02 === 0 ? "" : item.a50_02}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a65_02 === 0 ? "" : item.a65_02}</td>
                             </tr>
                             <tr>
                                 <td className="border border-black bg-orange-100 py-2" rowSpan="2">
@@ -87,16 +87,16 @@ function TestListCountPrint(props) {
                                 <td className="border border-black py-2 bg-orange-100">65A</td>
                             </tr>
                             <tr>
-                                <td className="border border-black font-bold text-2xl py-2 h-20">{item.a25_04 === 0 ? "" : item.a25_04}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a32_04 === 0 ? "" : item.a32_04}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a40_04 === 0 ? "" : item.a40_04}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a50_04 === 0 ? "" : item.a50_04}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a65_04 === 0 ? "" : item.a65_04}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a25_05 === 0 ? "" : item.a25_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a32_05 === 0 ? "" : item.a32_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a40_05 === 0 ? "" : item.a40_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a50_05 === 0 ? "" : item.a50_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a65_05 === 0 ? "" : item.a65_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2 h-20">{item.a25_04 === 0 ? "" : item.a25_04}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a32_04 === 0 ? "" : item.a32_04}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a40_04 === 0 ? "" : item.a40_04}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a50_04 === 0 ? "" : item.a50_04}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a65_04 === 0 ? "" : item.a65_04}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a25_05 === 0 ? "" : item.a25_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a32_05 === 0 ? "" : item.a32_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a40_05 === 0 ? "" : item.a40_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a50_05 === 0 ? "" : item.a50_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a65_05 === 0 ? "" : item.a65_05}</td>
                             </tr>
                             <tr>
                                 <td className="border border-black py-2" rowSpan="2">
@@ -117,16 +117,16 @@ function TestListCountPrint(props) {
                                 <td className="border border-black py-2">65A</td>
                             </tr>
                             <tr>
-                                <td className="border border-black font-bold text-2xl py-2 h-20">{item.a25_05 === 0 ? "" : item.a25_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a32_05 === 0 ? "" : item.a32_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a40_05 === 0 ? "" : item.a40_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a50_05 === 0 ? "" : item.a50_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a65_05 === 0 ? "" : item.a65_05}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a25_06 === 0 ? "" : item.a25_06}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a32_06 === 0 ? "" : item.a32_06}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a40_06 === 0 ? "" : item.a40_06}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a50_06 === 0 ? "" : item.a50_06}</td>
-                                <td className="border border-black font-bold text-2xl py-2">{item.a65_06 === 0 ? "" : item.a65_06}</td>
+                                <td className="border border-black font-bold text-3xl py-2 h-20">{item.a25_05 === 0 ? "" : item.a25_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a32_05 === 0 ? "" : item.a32_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a40_05 === 0 ? "" : item.a40_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a50_05 === 0 ? "" : item.a50_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a65_05 === 0 ? "" : item.a65_05}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a25_06 === 0 ? "" : item.a25_06}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a32_06 === 0 ? "" : item.a32_06}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a40_06 === 0 ? "" : item.a40_06}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a50_06 === 0 ? "" : item.a50_06}</td>
+                                <td className="border border-black font-bold text-3xl py-2">{item.a65_06 === 0 ? "" : item.a65_06}</td>
                             </tr>
                             </tbody>
                         </table>
