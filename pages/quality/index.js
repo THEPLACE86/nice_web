@@ -337,7 +337,7 @@ const Quality = (props) => {
                                     <tr key={item.id} className={item.cancel ? "bg-red-500" : ""}>
                                         <td className="border border-gray-300 text-center">{index + 1}</td>
                                         <td className="border border-gray-300 pl-4">
-                                            {item.company} {item.place} {item.area}
+                                            {item.company} {item.place} {item.area} ({item.initial})
                                         </td>
                                         <td className="border border-gray-300 pt-2 pb-2">
                                             {item.a25 !== 0 && (
