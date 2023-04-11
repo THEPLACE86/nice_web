@@ -82,8 +82,6 @@ const Quality = (props) => {
         };
     }, []);
 
-
-
     const handleDateChange = (date) => {
         setShowDatePicker(false);
         const formattedDate = formatDate(date)

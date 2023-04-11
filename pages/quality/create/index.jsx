@@ -34,7 +34,8 @@ function Create(props) {
         await supabase.from('bunch').insert({
             'place': values.company + ' ' + values.place + ' ' + values.area,
             'test_list_id': data[0].id,
-            'test_date': testDate
+            'test_date': testDate,
+            'test_round': testRound
         }).then(() => router.back())
     }
 

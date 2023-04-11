@@ -11,7 +11,8 @@ function TestListCountPrint(props) {
 
     useEffect(() => {
         const getData = async () => {
-            const {data, error} = await supabase.from('bunch').select().eq('test_date', date).order('created_at', { ascending: true })
+            const {data, error} = await supabase.from('bunch').select().eq('test_date', date)
+                .order('created_at', { ascending: true })
             setData(data)
         }
         getData().then(() => console.log())
