@@ -32,6 +32,7 @@ const TestListModal = ({ item }) => {
                                 <button className={"btn btn-accent text-white"} onClick={() => countCheck(item.id, item.a25, item.a32, item.a40, item.a50, item.a65)}>수량 맞음</button> :
                                 <button className={"btn btn-primary text-white"} onClick={() => countCheck(item.id, item.a25, item.a32, item.a40, item.a50, item.a65)}>수량</button>
                             }
+                            <button className="bg-orange-300 text-black px-4 py-2 ml-2 rounded">증지</button>
                             <button onClick={() => setIsModalOpen(false)} className="bg-gray-300 text-black px-4 py-2 ml-2 rounded">닫기</button>
                         </div>
                     </div>

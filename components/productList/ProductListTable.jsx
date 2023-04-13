@@ -120,7 +120,24 @@ const ProductListTable = ({ type, data, test_date }) => {
 
     const handleDateSave = () => {
         if (selectedDate) {
-            updateTestDate();
+            const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
+            async function sendSms(message, phoneNumber) {
+                const res = await fetch('/api/send_sms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, phoneNumber }),
+                });
+
+                if (res.status === 200) {
+                    console.log('성공적으로 문자 메시지를 전송했습니다.');
+                } else {
+
+                    console.error('문자 메시지 전송에 실패했습니다.');
+                }
+            }
+            updateTestDate().then(() => sendSms(
+                `${selectedItem.company} ${selectedItem.place} ${selectedItem.area} 현장 ${selectedItem.test_date} 에서 ${formattedDate} 으로 검수날짜 변경`,
+                '+821024400327'))
         }
         setShowModal(false);
     };
