@@ -122,11 +122,11 @@ const ProductListTable = ({ type, data, test_date }) => {
         if (selectedDate) {
             const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
             async function sendSms(message, phoneNumber) {
-                const res = await fetch('/api/send_sms', {
+                const [res] = await Promise.all([fetch('/api/send_sms', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, phoneNumber }),
-                });
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message, phoneNumber}),
+                })]);
 
                 if (res.status === 200) {
                     console.log('성공적으로 문자 메시지를 전송했습니다.');
