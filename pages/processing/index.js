@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {supabase} from "../../utils/supabaseClient";
-import formatDate from "../../utils/formatDate";
 import MonthPicker from "../../components/MonthPicker";
 import Pagination from "../../components/pagination";
 import SalesDate from "../../components/shipment/SalesDate";
