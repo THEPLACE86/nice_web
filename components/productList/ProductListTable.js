@@ -266,16 +266,16 @@ const ProductListTable = ({ type, data, test_date }) => {
     }
 
     const deleteProduct = async (id) => {
-        const confirmed = typeof window !== 'undefined' ? window.confirm('삭제 하시겠습니까?') : false;
-
-        if(confirmed){
-            try{
-                await supabase.from('product_list').delete().eq('id', id)
-                setShowModal(false)
-            }catch (e) {
-                console.log(e.message)
-            }
-        }
+        // const confirmed = typeof window !== 'undefined' ? window.confirm('삭제 하시겠습니까?') : false;
+        //
+        // if(confirmed){
+        //     try{
+        //         await supabase.from('product_list').delete().eq('id', id)
+        //         setShowModal(false)
+        //     }catch (e) {
+        //         console.log(e.message)
+        //     }
+        // }
     }
 
     const workerBack = async (worker, id) => {

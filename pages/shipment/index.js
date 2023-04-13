@@ -57,18 +57,18 @@ export default function ShipmentList() {
         });
     }
     const deleteShipment = async (id) => {
-        const confirmed = typeof window !== 'undefined' ? window.confirm('삭제 하시겠습니까?') : false;
-
-        if(confirmed){
-            try{
-                await supabase.from('shipment').delete().eq('id', id)
-                setIsModalOpen(false)
-
-
-            }catch (e) {
-                console.log(e.message)
-            }
-        }
+        // const confirmed = typeof window !== 'undefined' ? window.confirm('삭제 하시겠습니까?') : false;
+        //
+        // if(confirmed){
+        //     try{
+        //         await supabase.from('shipment').delete().eq('id', id)
+        //         setIsModalOpen(false)
+        //
+        //
+        //     }catch (e) {
+        //         console.log(e.message)
+        //     }
+        // }
     }
 
     return (
