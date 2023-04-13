@@ -64,9 +64,7 @@ export default function ShipmentList() {
                 await supabase.from('shipment').delete().eq('id', id)
                 setIsModalOpen(false)
 
-                if (typeof window !== 'undefined') {
-                    location.reload();
-                }
+
             }catch (e) {
                 console.log(e.message)
             }
