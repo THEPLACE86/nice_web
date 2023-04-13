@@ -7,6 +7,12 @@ import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
 
+  if (typeof window !== 'undefined') {
+    // 이 부분의 코드는 웹 브라우저(클라이언트 측)에서만 실행됩니다.
+    console.log(location.href);
+  }
+
+
   const [isLoading, setIsLoading] = useState(true)
   const [session, setSession] = useState(null)
 
