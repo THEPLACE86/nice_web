@@ -3,11 +3,12 @@ import {supabase} from "../../utils/supabaseClient";
 import MonthPicker from "../../components/MonthPicker";
 import Pagination from "../../components/pagination";
 import SalesDate from "../../components/shipment/SalesDate";
-import {router} from "next/client";
+import {useRouter} from "next/router";
 
 const itemsPerPage = 25;
 
 const Processing = () => {
+    const router = useRouter();
     const [data, setData] = useState([]);
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
