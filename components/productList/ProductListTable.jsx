@@ -135,9 +135,10 @@ const ProductListTable = ({ type, data, test_date }) => {
                     console.error('문자 메시지 전송에 실패했습니다.');
                 }
             }
-            updateTestDate().then(() => sendSms(
+            updateTestDate()
+            sendSms(
                 `${selectedItem.company} ${selectedItem.place} ${selectedItem.area} 현장 ${selectedItem.test_date} 에서 ${formattedDate} 으로 검수날짜 변경`,
-                '+821024400327'))
+                '+821024400327')
         }
         setShowModal(false);
     };
