@@ -11,7 +11,7 @@ export default function Home() {
 
     async function fetchShipments() {
         const { data, error } = await supabase.from("product_list").select()
-            .eq('worker', '출하완료').order('updated_at', {ascending: true}).limit(7);
+            .eq('worker', '출하완료').order('updated_at', {ascending: false}).limit(7);
         if (error) console.error("Error fetching shipments:", error);
         else setShipments(data);
     }
