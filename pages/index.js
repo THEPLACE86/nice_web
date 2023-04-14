@@ -66,7 +66,7 @@ export default function Home() {
 
     return (
         <div className="px-4 py-8" style={{ maxWidth: "600px" }}>
-            <h1 className="text-2xl font-bold mb-4">최근 출하된 목록1</h1>
+            <h1 className="text-2xl font-bold mb-4">최근 출하된 목록</h1>
             <ul>
                 {shipments.map((shipment) => (
                     <li key={shipment.id} className="border-b border-gray-200 py-4 justify-between">
