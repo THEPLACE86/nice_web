@@ -4,11 +4,35 @@ import {supabase} from "../utils/supabaseClient";
 import Auth from "../components/Auth";
 import Navbar from "../components/Navbar";
 import Head from "next/head";
+import UpdateModal from "../components/UpdateModal";
+import buildTime from "./api/buildTime";
+
+export async function getServerSideProps() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/buildTime`);
+  const data = await res.json();
+
+  return {
+    props: {
+      buildTime: data.buildTime,
+    },
+  };
+}
 
 function MyApp({ Component, pageProps }) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [session, setSession] = useState(null)
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  useEffect(() => {
+    const storedBuildTime = localStorage.getItem("buildTime");
+
+    if (storedBuildTime && storedBuildTime !== buildTime) {
+      setShowUpdateModal(true);
+    } else {
+      localStorage.setItem("buildTime", buildTime);
+    }
+  }, [buildTime]);
 
   useEffect(() => {
     let mounted = true
@@ -59,6 +83,10 @@ function MyApp({ Component, pageProps }) {
                 </script>
               </Head>
               <Navbar/>
+              <UpdateModal
+                  show={showUpdateModal}
+                  onClose={() => setShowUpdateModal(false)}
+              />
               <Component {...pageProps} key={session.user.id} session={session} />
             </div>
         )}

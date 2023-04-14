@@ -5,7 +5,6 @@ import React, {useEffect, useState} from "react";
 import {supabase} from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
-import { format } from 'date-fns';
 import {useRouter} from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
@@ -119,7 +118,7 @@ const ProductListTable = ({ type, data, test_date }) => {
     };
 
     const sendSms = async (message, phoneNumber) => {
-        const [res] = await Promise.all([fetch('/api/send_sms', {
+        const [res] = await Promise.all([fetch('/api/sendSMS', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({message, phoneNumber}),
