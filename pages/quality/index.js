@@ -226,8 +226,19 @@ const Quality = (props) => {
                 </div>
             </>
         );
-    };
+    }
 
+    function filterLotInfo(testDateInfo, testRound) {
+        const roundMapping = {
+            "1차": { lot_num: testDateInfo.lot_num, lot_numH: testDateInfo.lot_numH },
+            "2차": { lot_num: testDateInfo.lot_num2, lot_numH: testDateInfo.lot_numH2 },
+            "3차": { lot_num: testDateInfo.lot_num3, lot_numH: testDateInfo.lot_numH3 },
+            "4차": { lot_num: testDateInfo.lot_num4, lot_numH: testDateInfo.lot_numH4 },
+            // 필요한 경우 여기에 추가 차수를 매핑하세요
+        };
+
+        return roundMapping[testRound] || {};
+    }
 
     return (
         <div>
@@ -465,7 +476,10 @@ const Quality = (props) => {
                                             </div>
                                         </td>
                                         <td className="border border-gray-300 text-center">
-                                            <TestListModal item={item} />
+                                            <TestListModal
+                                                item={item}
+                                                lotInfo={filterLotInfo(testDateInfo, testRound)}
+                                            />
                                         </td>
                                     </tr>
                                 );
