@@ -31,12 +31,18 @@ const List = (props) => {
                 console.log('Change received!', payload)
                 switch (payload.eventType) {
                     case "UPDATE":
+
                         setData((prevChannels) => {
                             const updatedChannels = prevChannels.map((channel) =>
                                 channel.id === payload.new.id ? payload.new : channel
                             );
+
                             if (payload.new.test_date === date) {
-                                return updatedChannels.some(channel => channel.id === payload.new.id) ? updatedChannels : [...updatedChannels, payload.new];
+                                if (updatedChannels.some(channel => channel.id === payload.new.id)) {
+                                    return updatedChannels;
+                                } else {
+                                    return [...updatedChannels, payload.new];
+                                }
                             } else {
                                 return updatedChannels.filter(channel => channel.test_date === date && channel.id !== payload.new.id);
                             }
