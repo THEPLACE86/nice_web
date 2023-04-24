@@ -37,6 +37,7 @@ const Update = (props) => {
     };
 
     useEffect(() => {
+        console.log(startDate)
         const fetchProductList = async () => {
             const { data, error } = await supabase
                 .from("shipment")
@@ -62,12 +63,13 @@ const Update = (props) => {
             if(data.test_date === ""){
                 setNotTest(true)
             }else{
-                const parsedDate = parse(data.test_date, "yyyy년 M월 dd일", new Date());
+                const parsedDate = parse(data.test_date, "yyyy년 MM월 dd일", new Date());
                 setStartDate(parsedDate);
                 setNotTest(false)
             }
         };
         fetchProductList();
+        console.log(formData)
     }, []);
 
     const handleChange = (e) => {
@@ -79,12 +81,12 @@ const Update = (props) => {
         const newErrors = {};
         Object.keys(formData).forEach((key) => {
             if (
-                !formData[key] &&
-                key !== "memo"
+                !formData[key] && key !== "memo" && !formData[key] && key !== "test_date"
             ) {
                 newErrors[key] = "빈칸을 입력해주세요";
             }
         });
+
         if (Object.keys(newErrors).length === 0) {
             const formattedDate = formatDate(startDate)
 
@@ -104,6 +106,7 @@ const Update = (props) => {
             router.back();
         } else {
             setErrors(newErrors);
+            console.log(errors)
         }
     }
 
@@ -225,7 +228,7 @@ const Update = (props) => {
                             selected={startDate}
                             onChange={handleDateChange}
                             locale={ko}
-                            dateFormat="yyyy년 M월 d일"
+                            dateFormat="yyyy년 MM월 dd일"
                             inline
                             filterDate={(date) => date.getDay() === 2}
                         />
