@@ -1,15 +1,41 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import {supabase} from "../../../utils/supabaseClient";
+import {useEffect, useState} from "react";
 
-function Create(props) {
-    const { testDate, testRound } = props;
+function Update(props) {
+    const { id, testDate } = props;
     const router = useRouter();
     const { register, handleSubmit, setValue } = useForm();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchProduct() {
+            const { data, error } = await supabase
+                .from('product')
+                .select()
+                .eq('id', id)
+                .single();
+
+            if (data) {
+                for (const property in data) {
+                    setValue(property, data[property]);
+                }
+            } else {
+                console.error('error fetching product', error);
+            }
+
+            setLoading(false);
+        }
+
+        if (loading) {
+            fetchProduct();
+        }
+    }, [loading, setValue, id]);
 
     async function onSave(values) {
         console.log('Success:', values.company);
-        const { data, error } = await supabase.from('product').insert({
+        const { data, error } = await supabase.from('product').update({
             'company' : values.company,
             'place' : values.place,
             'area': values.area,
@@ -25,21 +51,15 @@ function Create(props) {
             'm150' : values.m150,
             'test_date' : testDate,
             'initial' : values.initial,
-            'test_round' : testRound,
             'totalH': parseInt(values.a32)+parseInt(values.a40)+parseInt(values.a50)+parseInt(values.a65)+
                 parseInt(values.m65)+parseInt(values.m80)+parseInt(values.m100)+parseInt(values.m125)+parseInt(values.m150)
-
-        }).select('id')
-
-        await supabase.from('bunch').insert({
-            'place': values.company + ' ' + values.place + ' ' + values.area,
-            'test_list_id': data[0].id,
-            'test_date': testDate,
-            'test_round': testRound,
-            'print': parseInt(values.a25) + parseInt(values.a32) + parseInt(values.a40) + parseInt(values.a50) + parseInt(values.a65) !== 0
-        }).then(() => router.back())
+        }).eq("id", id)
+        router.back()
     }
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
     return (
         <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <form onSubmit={handleSubmit(onSave)} className="max-w-full space-y-6">
@@ -207,12 +227,12 @@ function Create(props) {
                             defaultValue="0"
                         />
                     </div>
-                    {/* ... */}
+
                 </div>
 
                 <div className="mt-4">
                     <button type="submit" className="btn btn-primary w-48">
-                        저장
+                        수정
                     </button>
                 </div>
             </form>
@@ -220,8 +240,8 @@ function Create(props) {
     );
 }
 
-Create.getInitialProps = ({ query }) => {
-    return { testDate: query.testDate, testRound: query.testRound };
+Update.getInitialProps = ({ query }) => {
+    return { id: query.id, testDate: query.testDate };
 };
 
-export default Create;
+export default Update;

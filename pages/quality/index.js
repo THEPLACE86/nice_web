@@ -4,7 +4,6 @@ import ko from "date-fns/locale/ko";
 import { useRouter } from "next/router";
 import {supabase} from "../../utils/supabaseClient";
 import formatDate from "../../utils/formatDate";
-import SalesDate from "../../components/shipment/SalesDate";
 import TestListModal from "../../components/quality/TestListModal";
 
 const Quality = (props) => {
@@ -234,7 +233,6 @@ const Quality = (props) => {
             "2차": { lot_num: testDateInfo.lot_num2, lot_numH: testDateInfo.lot_numH2 },
             "3차": { lot_num: testDateInfo.lot_num3, lot_numH: testDateInfo.lot_numH3 },
             "4차": { lot_num: testDateInfo.lot_num4, lot_numH: testDateInfo.lot_numH4 },
-            // 필요한 경우 여기에 추가 차수를 매핑하세요
         };
 
         return roundMapping[testRound] || {};
