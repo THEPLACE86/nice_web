@@ -37,15 +37,11 @@ const List = (props) => {
                                 channel.id === payload.new.id ? payload.new : channel
                             );
 
-                            if (payload.new.test_date === date) {
-                                if (updatedChannels.some(channel => channel.id === payload.new.id)) {
-                                    return updatedChannels;
-                                } else {
-                                    return [...updatedChannels, payload.new];
-                                }
-                            } else {
-                                return updatedChannels.filter(channel => channel.test_date === date && channel.id !== payload.new.id);
+                            if (!updatedChannels.some(channel => channel.id === payload.new.id)) {
+                                updatedChannels.push(payload.new);
                             }
+
+                            return updatedChannels.filter(channel => channel.test_date === date);
                         });
 
                         break

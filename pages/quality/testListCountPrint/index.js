@@ -32,7 +32,7 @@ function TestListCountPrint(props) {
                                         colSpan="12"
                                         style={{ fontWeight: "bold", color: "#CB0000" }}
                                     >
-                                        {index + 1}번 {item.place}
+                                        {index + 1}번 {item.place} ({item.initial})
                                     </th>
                                 </tr>
                                 </thead>

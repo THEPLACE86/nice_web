@@ -36,6 +36,7 @@ function Create(props) {
             'test_list_id': data[0].id,
             'test_date': testDate,
             'test_round': testRound,
+            'initial' : values.initial,
             'print': parseInt(values.a25) + parseInt(values.a32) + parseInt(values.a40) + parseInt(values.a50) + parseInt(values.a65) !== 0
         }).then(() => router.back())
     }
