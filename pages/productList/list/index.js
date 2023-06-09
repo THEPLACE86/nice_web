@@ -22,7 +22,7 @@ const List = (props) => {
                 setData(data);
             }
         };
-        fetchData()
+        fetchData().then()
     }, [date]);
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const List = (props) => {
                 }
             }).subscribe()
         return () => {
-            supabase.removeChannel(ch)
+            supabase.removeChannel(ch).then()
         };
     }, [])
 

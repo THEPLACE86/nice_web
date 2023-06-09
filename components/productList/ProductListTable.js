@@ -117,27 +117,28 @@ const ProductListTable = ({ type, data, test_date }) => {
         setSelectedDate(date);
     };
 
-    const sendSms = async (message, phoneNumber) => {
-        const [res] = await Promise.all([fetch('/api/sendSMS', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({message, phoneNumber}),
-        })]);
-
-        if (res.status === 200) {
-            console.log('성공적으로 문자 메시지를 전송했습니다.');
-        } else {
-
-            console.error('문자 메시지 전송에 실패했습니다.');
-        }
-    }
+    // const sendSms = async (message, phoneNumber) => {
+    //     const [res] = await Promise.all([fetch('/api/sendSMS', {
+    //         method: 'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: JSON.stringify({message, phoneNumber}),
+    //     })]);
+    //
+    //     if (res.status === 200) {
+    //         console.log('성공적으로 문자 메시지를 전송했습니다.');
+    //     } else {
+    //
+    //         console.error('문자 메시지 전송에 실패했습니다.');
+    //     }
+    // }
     const handleDateSave = () => {
         if (selectedDate) {
             const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
-            updateTestDate().then(() => sendSms(
-                `\n${selectedItem.company} ${selectedItem.place} ${selectedItem.area} 현장 \n${selectedItem.test_date} 에서 ${formattedDate} 으로 검수날짜 변경`,
-                '+821024400327'
-            ))
+            updateTestDate()
+            // updateTestDate().then(() => sendSms(
+            //     `\n${selectedItem.company} ${selectedItem.place} ${selectedItem.area} 현장 \n${selectedItem.test_date} 에서 ${formattedDate} 으로 검수날짜 변경`,
+            //     '+821024400327'
+            // ))
         }
         setShowModal(false);
     };
@@ -148,9 +149,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                 const { error } = await supabase.from('product_list')
                     .update({ test_date: formattedDate })
                     .eq('id', selectedItem.id);
-                if (error) {
-                    throw error;
-                }
+                if (error) throw error;
                 setShowDatePicker(false);
             } catch (error) {
                 console.error('Failed to update test_date:', error.message);
