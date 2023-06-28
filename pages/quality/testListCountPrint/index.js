@@ -89,16 +89,16 @@ function TestListCountPrint(props) {
                                     <td className="border border-black py-2 bg-orange-100">65A</td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-black font-bold text-3xl py-2 h-20">{item.a25_04 === 0 ? "" : item.a25_04}</td>
+                                    <td className="border border-black font-bold text-3xl py-2 h-20">{item.a25_03 === 0 ? "" : item.a25_03}</td>
+                                    <td className="border border-black font-bold text-3xl py-2">{item.a32_03 === 0 ? "" : item.a32_03}</td>
+                                    <td className="border border-black font-bold text-3xl py-2">{item.a40_03 === 0 ? "" : item.a40_03}</td>
+                                    <td className="border border-black font-bold text-3xl py-2">{item.a50_03 === 0 ? "" : item.a50_03}</td>
+                                    <td className="border border-black font-bold text-3xl py-2">{item.a65_03 === 0 ? "" : item.a65_03}</td>
+                                    <td className="border border-black font-bold text-3xl py-2">{item.a25_04 === 0 ? "" : item.a25_04}</td>
                                     <td className="border border-black font-bold text-3xl py-2">{item.a32_04 === 0 ? "" : item.a32_04}</td>
                                     <td className="border border-black font-bold text-3xl py-2">{item.a40_04 === 0 ? "" : item.a40_04}</td>
                                     <td className="border border-black font-bold text-3xl py-2">{item.a50_04 === 0 ? "" : item.a50_04}</td>
                                     <td className="border border-black font-bold text-3xl py-2">{item.a65_04 === 0 ? "" : item.a65_04}</td>
-                                    <td className="border border-black font-bold text-3xl py-2">{item.a25_05 === 0 ? "" : item.a25_05}</td>
-                                    <td className="border border-black font-bold text-3xl py-2">{item.a32_05 === 0 ? "" : item.a32_05}</td>
-                                    <td className="border border-black font-bold text-3xl py-2">{item.a40_05 === 0 ? "" : item.a40_05}</td>
-                                    <td className="border border-black font-bold text-3xl py-2">{item.a50_05 === 0 ? "" : item.a50_05}</td>
-                                    <td className="border border-black font-bold text-3xl py-2">{item.a65_05 === 0 ? "" : item.a65_05}</td>
                                 </tr>
                                 <tr>
                                     <td className="border border-black py-2" rowSpan="2">
