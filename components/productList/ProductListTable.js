@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import Modal from "../util/model";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {supabase} from "../../utils/supabaseClient";
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
-import { format } from 'date-fns';
 import {useRouter} from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
@@ -147,12 +146,10 @@ const ProductListTable = ({ type, data, test_date }) => {
         if (selectedDate) {
             const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
             try {
-                const { error } = await supabase.from('product_list')
+                await supabase.from('product_list')
                     .update({ test_date: formattedDate })
                     .eq('id', selectedItem.id);
-                if (error) {
-                    throw error;
-                }
+
                 setShowDatePicker(false);
             } catch (error) {
                 console.error('Failed to update test_date:', error.message);
@@ -192,7 +189,8 @@ const ProductListTable = ({ type, data, test_date }) => {
                 setShowModal(false)
             }else if(worker === '작업완료') {
                 await supabase.from('product_list').update({
-                    'worker': '출하완료'
+                    'worker': '출하완료',
+                    'shipment_date': formatDate(date)
                 }).eq('id', id)
                 await supabase.from('product_history').insert({
                     'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
@@ -241,7 +239,8 @@ const ProductListTable = ({ type, data, test_date }) => {
                 setShowModal(false)
             }else if(worker_main === '작업완료') {
                 await supabase.from('product_list').update({
-                    'worker_main': '출하완료'
+                    'worker_main': '출하완료',
+                    'shipment_dateM': formatDate(date)
                 }).eq('id', id)
                 await supabase.from('product_history').insert({
                     'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
@@ -516,7 +515,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                                 <input
                                     type="text"
                                     className="input input-bordered"
-                                    value={content}
+                                    value={selectedItem.memo}
                                     onChange={(e) => setContent(e.target.value)}
                                 />
                             </div>
