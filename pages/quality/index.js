@@ -4,7 +4,6 @@ import ko from "date-fns/locale/ko";
 import { useRouter } from "next/router";
 import {supabase} from "../../utils/supabaseClient";
 import formatDate from "../../utils/formatDate";
-import SalesDate from "../../components/shipment/SalesDate";
 import TestListModal from "../../components/quality/TestListModal";
 
 const Quality = (props) => {
@@ -226,8 +225,18 @@ const Quality = (props) => {
                 </div>
             </>
         );
-    };
+    }
 
+    function filterLotInfo(testDateInfo, testRound) {
+        const roundMapping = {
+            "1차": { lot_num: testDateInfo.lot_num, lot_numH: testDateInfo.lot_numH },
+            "2차": { lot_num: testDateInfo.lot_num2, lot_numH: testDateInfo.lot_numH2 },
+            "3차": { lot_num: testDateInfo.lot_num3, lot_numH: testDateInfo.lot_numH3 },
+            "4차": { lot_num: testDateInfo.lot_num4, lot_numH: testDateInfo.lot_numH4 },
+        };
+
+        return roundMapping[testRound] || {};
+    }
 
     return (
         <div>
@@ -465,7 +474,10 @@ const Quality = (props) => {
                                             </div>
                                         </td>
                                         <td className="border border-gray-300 text-center">
-                                            <TestListModal item={item} />
+                                            <TestListModal
+                                                item={item}
+                                                lotInfo={filterLotInfo(testDateInfo, testRound)}
+                                            />
                                         </td>
                                     </tr>
                                 );

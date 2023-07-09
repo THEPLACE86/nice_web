@@ -70,12 +70,12 @@ function CountCheck(props) {
 
     return(
         <div className="text-center">
-            <h2 className="text-2xl font-bold">{data.place} 수량체크</h2>
-            <div className="flex justify-center items-center">
-                <h3>A25<br/>{a25}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <h3>A32<br/>{a32}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <h3>A40<br/>{a40}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <h3>A50<br/>{a50}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <h2 className="text-2xl font-bold mb-4">{data.place} 수량체크</h2>
+            <div className="flex justify-center items-center font-bold text-2xl">
+                <h3>A25<br/>{a25}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h3>A32<br/>{a32}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h3>A40<br/>{a40}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h3>A50<br/>{a50}</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <h3>A65<br/>{a65}</h3>
             </div>
             <br/>

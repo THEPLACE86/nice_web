@@ -63,8 +63,7 @@ export default function ShipmentList() {
             try{
                 await supabase.from('shipment').delete().eq('id', id)
                 setIsModalOpen(false)
-
-
+                await fetchShipments()
             }catch (e) {
                 console.log(e.message)
             }

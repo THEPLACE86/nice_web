@@ -35,7 +35,7 @@ const ProductList = () => {
 
                 </div>
                 <Link href='/productList/statistics'>
-                    <button className={"btn btn-active btn-primary w-full text-white h-16 ml-4 text-white"}>생산통계</button>
+                    <button className={"btn btn-active btn-primary w-full h-16 ml-4 text-white"}>생산통계</button>
                 </Link>
             </div>
         </>

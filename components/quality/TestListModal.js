@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import formatDate from "../../utils/formatDate";
-import {supabase} from "../../utils/supabaseClient";
+import { utils, writeFile as writeXLSXFile } from "xlsx";
 import {useRouter} from "next/router";
+import {supabase} from "../../utils/supabaseClient";
 
-const TestListModal = ({ item }) => {
+const TestListModal = ({ item, lotInfo }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
+
     const countCheck = async (id, a25, a32, a40, a50, a65) => {
 
         await router.push({
@@ -14,6 +14,71 @@ const TestListModal = ({ item }) => {
             query: { id, a25, a32, a40, a50, a65 },
         });
         setIsModalOpen(false)
+    }
+
+    const updatePage = async (id, testDate) => {
+
+        await router.push({
+            pathname: '/quality/update',
+            query: { id:id, testDate:testDate },
+        });
+        setIsModalOpen(false)
+    }
+
+    const lotPrint = () => {
+        const fixedValues = [
+            { "제품형식": "25x(25)", "레듀샤": "", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 23-5","로트번호":lotInfo.lot_num < 100 ? '202300'+lotInfo.lot_num : '20230'+lotInfo.lot_num, "제조일자": "2023", "구분": "비확관형" },
+            { "제품형식": "32x(25)", "레듀샤": "32x(25)", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "40x(32~25)", "레듀샤": "40x(32)", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "50x(40~25)", "레듀샤": "50x(40)", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "65x(50~25)", "레듀샤": "65x(50)", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "65x(50~25)", "레듀샤": "", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "80x(65~25)", "레듀샤": "", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "100x(80~25)", "레듀샤": "", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "125x(100~25)", "레듀샤": "", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+            { "제품형식": "150x(125~25)", "레듀샤": "", "배관재질": "KSD 3507", "스케쥴번호": "", "인증번호": "분기 11-5-1","로트번호":lotInfo.lot_numH < 100 ? '202300'+lotInfo.lot_numH : '20230'+lotInfo.lot_numH, "제조일자": "2023", "구분": "확관형" },
+        ]
+        const columns = ["a25", "a32", "a40", "a50", "a65", "m65", "m80", "m100", "m125", "m150"]
+
+        const worksheetData = columns.map((column, index) => {
+            const fixedValue = fixedValues[index % 10];
+            return {
+                "수량": item[column],
+                "제품형식": fixedValue.제품형식,
+                "레듀샤": fixedValue.레듀샤,
+                "배관재질": fixedValue.배관재질,
+                "스케쥴번호": fixedValue.스케쥴번호,
+                "인증번호": fixedValue.인증번호,
+                "로트번호": fixedValue.로트번호,
+                "제조일자": fixedValue.제조일자,
+                "제조번호": item.company+'/'+item.place,
+                "구분": fixedValue.구분,
+            };
+        });
+
+        const worksheet = utils.json_to_sheet(worksheetData);
+        const workbook = utils.book_new();
+        utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+        // 엑셀 파일로 저장
+        writeXLSXFile(workbook, item.company + ' ' + item.place + ' ' + item.area + ".xlsx", { type: "buffer" });
+        console.log("Excel file created: output.xlsx");
+
+        setIsModalOpen(false)
+    }
+    const deleted = async (id) => {
+        const confirmed = typeof window !== 'undefined' ? window.confirm('삭제 하시겠습니까?') : false;
+
+        if(confirmed){
+            try{
+                await supabase.from('product').delete().eq("id", id)
+                await supabase.from('bunch').delete().eq("test_list_id", id)
+                setIsModalOpen(false)
+
+            }catch (e) {
+                console.log(e.message)
+            }
+        }
     }
 
     return (
@@ -32,9 +97,11 @@ const TestListModal = ({ item }) => {
                                 <button className={"btn btn-accent text-white"} onClick={() => countCheck(item.id, item.a25, item.a32, item.a40, item.a50, item.a65)}>수량 맞음</button> :
                                 <button className={"btn btn-primary text-white"} onClick={() => countCheck(item.id, item.a25, item.a32, item.a40, item.a50, item.a65)}>수량</button>
                             }
-                            <button className="bg-orange-300 text-black px-4 py-2 ml-2 rounded">증지</button>
-                            <button onClick={() => setIsModalOpen(false)} className="bg-gray-300 text-black px-4 py-2 ml-2 rounded">닫기</button>
+                            <button onClick={() => lotPrint()} className="bg-orange-300 text-black px-4 py-2 ml-10 rounded">증지</button>
+                            <button onClick={() => updatePage(item.id, item.test_date)} className="bg-yellow-300 text-black px-4 py-2 ml-2 rounded">수정</button>
+                            <button onClick={() => deleted(item.id)} className="bg-red-300 text-black px-4 py-2 ml-2 rounded">삭제</button>
                         </div>
+
                     </div>
                 </div>
             )}

@@ -1,12 +1,12 @@
 import twilio from "twilio";
 
 export default async function handler(req, res) {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+
     if (req.method === 'POST') {
         const { message, phoneNumber } = req.body;
 
-        // Twilio 인증 및 클라이언트 설정
-        const accountSid = "AC64589d6bd3dd9f0873555e0593f89f5b"
-        const authToken = "a63715148e7b1128158dc0047e57eb17"
         const client = twilio(accountSid, authToken);
 
         // 문자 메시지 전송

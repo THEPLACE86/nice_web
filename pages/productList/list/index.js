@@ -22,7 +22,7 @@ const List = (props) => {
                 setData(data);
             }
         };
-        fetchData()
+        fetchData().then()
     }, [date]);
 
     useEffect(() => {
@@ -31,15 +31,17 @@ const List = (props) => {
                 console.log('Change received!', payload)
                 switch (payload.eventType) {
                     case "UPDATE":
+
                         setData((prevChannels) => {
                             const updatedChannels = prevChannels.map((channel) =>
                                 channel.id === payload.new.id ? payload.new : channel
                             );
-                            if (payload.new.test_date === date) {
-                                return updatedChannels.some(channel => channel.id === payload.new.id) ? updatedChannels : [...updatedChannels, payload.new];
-                            } else {
-                                return updatedChannels.filter(channel => channel.test_date === date && channel.id !== payload.new.id);
+
+                            if (!updatedChannels.some(channel => channel.id === payload.new.id)) {
+                                updatedChannels.push(payload.new);
                             }
+
+                            return updatedChannels.filter(channel => channel.test_date === date);
                         });
 
                         break
@@ -58,7 +60,7 @@ const List = (props) => {
                 }
             }).subscribe()
         return () => {
-            supabase.removeChannel(ch)
+            supabase.removeChannel(ch).then()
         };
     }, [])
 
