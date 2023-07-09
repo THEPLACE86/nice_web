@@ -37,6 +37,7 @@ const ProductListTable = ({ type, data, test_date }) => {
 
     const [date, setDate] = useState(new Date());
 
+
     async function saveShipment(){
         const { data: { user } } = await supabase.auth.getUser()
         const userData = loadDataFromLocalStorage('user')
@@ -118,31 +119,6 @@ const ProductListTable = ({ type, data, test_date }) => {
         setSelectedDate(date);
     };
 
-    const handleDateSave = () => {
-        if (selectedDate) {
-            const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
-            async function sendSms(message, phoneNumber) {
-                const [res] = await Promise.all([fetch('/api/send_sms', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({message, phoneNumber}),
-                })]);
-
-                if (res.status === 200) {
-                    console.log('성공적으로 문자 메시지를 전송했습니다.');
-                } else {
-
-                    console.error('문자 메시지 전송에 실패했습니다.');
-                }
-            }
-            updateTestDate()
-            sendSms(
-                `${selectedItem.company} ${selectedItem.place} ${selectedItem.area} 현장 ${selectedItem.test_date} 에서 ${formattedDate} 으로 검수날짜 변경`,
-                '+821024400327'
-            )
-        }
-        setShowModal(false);
-    };
     const updateTestDate = async () => {
         if (selectedDate) {
             const formattedDate = formatDate(selectedDate); // 날짜를 원하는 포맷으로 변환
@@ -150,9 +126,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                 const { error } = await supabase.from('product_list')
                     .update({ test_date: formattedDate })
                     .eq('id', selectedItem.id);
-                if (error) {
-                    throw error;
-                }
+                if (error) throw error;
                 setShowDatePicker(false);
             } catch (error) {
                 console.error('Failed to update test_date:', error.message);
@@ -192,7 +166,8 @@ const ProductListTable = ({ type, data, test_date }) => {
                 setShowModal(false)
             }else if(worker === '작업완료') {
                 await supabase.from('product_list').update({
-                    'worker': '출하완료'
+                    'worker': '출하완료',
+                    'shipment_date': formatDate(date)
                 }).eq('id', id)
                 await supabase.from('product_history').insert({
                     'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area,
@@ -241,7 +216,8 @@ const ProductListTable = ({ type, data, test_date }) => {
                 setShowModal(false)
             }else if(worker_main === '작업완료') {
                 await supabase.from('product_list').update({
-                    'worker_main': '출하완료'
+                    'worker_main': '출하완료',
+                    'shipment_dateM': formatDate(date)
                 }).eq('id', id)
                 await supabase.from('product_history').insert({
                     'place': selectedItem.company + ' ' + selectedItem.place + ' ' + selectedItem.area + '(메인관)',
@@ -416,19 +392,19 @@ const ProductListTable = ({ type, data, test_date }) => {
                             <WorkerCell item={item}/>
                         )}
 
-                        <TableTH className={`text-sm font-normal ${item.paper && 'bg-accent'} ${item.worker === '출하완료' && 'line-through'}`}>{item.initial}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.name}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.drawing && 'bg-orange-200'} ${item.worker === '출하완료' && 'line-through'}`}>{item.company}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.place}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.area}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.head !== 0 && item.head}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.hole !== 0 && item.hole}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.groove !== 0 && item.groove}</TableTH>
-                        <TableTH className={`text-sm font-normal ${item.worker === '출하완료' && 'line-through'}`}>{item.memo}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.paper && 'bg-accent'}`}>{item.initial}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.name}</TableTH>
+                        <TableTH className={`text-sm font-normal ${item.drawing && 'bg-orange-200'}`}>{item.company}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.place}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.area}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.head !== 0 && item.head}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.hole !== 0 && item.hole}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.groove !== 0 && item.groove}</TableTH>
+                        <TableTH className={`text-sm font-normal`}>{item.memo}</TableTH>
                     </tr>
                 ))}
                 <tr>
-                    <td colSpan={(type === '용접/무용접' || type === '나사') ? '7' : '6'} className="text-sm border-none p-1 text-center font-semibold text-end">합계</td>
+                    <td colSpan={(type === '용접/무용접' || type === '나사') ? '7' : '6'} className="text-sm border-none p-1 font-semibold text-end">합계</td>
                         <TableTH className="text-sm bg-yellow-100">{ totalHead !== 0 && totalHead }</TableTH>
                         <TableTH className="text-sm bg-yellow-100">{ totalHole !== 0 && totalHole }</TableTH>
                         <TableTH className="text-sm bg-yellow-100">{ totalGroove !== 0 && totalGroove }</TableTH>
@@ -455,7 +431,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                                     onChange={handleDateChange}
                                     inline
                                     filterDate={(date) => date.getDay() === 2}
-                                    onClickOutside={handleDateSave}
+                                    onClickOutside={updateTestDate()}
                                     locale={ko}
                                 />
                             </div>
@@ -516,7 +492,7 @@ const ProductListTable = ({ type, data, test_date }) => {
                                 <input
                                     type="text"
                                     className="input input-bordered"
-                                    value={content}
+                                    value={selectedItem.memo}
                                     onChange={(e) => setContent(e.target.value)}
                                 />
                             </div>

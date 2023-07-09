@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }) {
       }
     }
 
-    getInitialSession()
+    getInitialSession().then()
 
     const { subscription } = supabase.auth.onAuthStateChange(
         (_event, session) => {

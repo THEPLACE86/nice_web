@@ -85,8 +85,8 @@ const Processing = () => {
     }
 
     return (
-        <div className="mx-auto px-4 mt-6">
-            <div className="flex justify-between items-center mb-4 w-full">
+        <div className="mx-auto mt-6">
+            <div className="flex justify-between mb-4">
                 <div className={"print:hidden"}>
                     <MonthPicker onMonthSelect={handleMonthSelect} />
                 </div>
@@ -120,7 +120,7 @@ const Processing = () => {
                 <thead>
                 <tr className="bg-blue-200 font-bold">
                     <th className="border px-4 text-sm py-2 w-24">배포날짜</th>
-                    <th className="border px-4 text-sm py-2">담당</th>
+                    <th className="border px-4 text-sm py-2 w-16">담당</th>
                     <th className="border px-4 text-sm py-2">회사</th>
                     <th className="border px-4 text-sm py-2">현장</th>
                     <th className="border px-4 text-sm py-2">구역</th>
@@ -128,7 +128,8 @@ const Processing = () => {
                     <th className="border px-4 text-sm py-2 w-20">헤드</th>
                     <th className="border px-4 text-sm py-2 w-20">그루브</th>
                     <th className="border px-4 text-sm py-2 w-24">검사날짜</th>
-                    <th className="border px-4 text-sm py-2 w-24">출하날짜</th>
+                    <th className="border px-4 text-sm py-2 w-28">출하날짜(가)</th>
+                    <th className="border px-4 text-sm py-2 w-28">출하날짜(메)</th>
                     <th className="border px-4 text-sm py-2 w-28">매출날짜</th>
                 </tr>
                 </thead>
@@ -137,7 +138,7 @@ const Processing = () => {
                     <tr key={index} className="border">
                         <td className="border text-center p-1 text-sm">{item.drawing_date && item.drawing_date.substring(6)}</td>
                         <td className="border text-center p-1 text-sm">{item.name}</td>
-                        <td className="border text-center p-1 text-sm">{item.company}</td>
+                        <td className="border text-center p-1 text-sm">{item.company} (<span className={'text-orange-600 font-bold'}>{item.initial}</span>)</td>
                         <td className="border text-center p-1 text-sm">{item.place}</td>
                         <td className="border text-center p-1 text-sm">{item.area}</td>
                         <td className="border text-center p-1 text-sm">{item.hole !== 0 && item.hole}</td>
@@ -145,6 +146,7 @@ const Processing = () => {
                         <td className="border text-center p-1 text-sm">{item.groove !== 0 && item.groove}</td>
                         <td className="border text-center p-1 text-sm">{item.test_date && item.test_date.substring(6)}</td>
                         <td className="border text-center p-1 text-sm">{item.shipment_date && item.shipment_date.substring(6)}</td>
+                        <td className="border text-center p-1 text-sm">{item.shipment_dateM && item.shipment_dateM.substring(6)}</td>
                         <td className="border text-center p-1 text-sm text-orange-600"><SalesDate item={item} onDataChange={fetchData} /></td>
                     </tr>
                 ))}
